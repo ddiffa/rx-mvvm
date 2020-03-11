@@ -11,11 +11,21 @@
             type="com.example.android.databinding.basicsample.adapter.TvShowAdapter" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTvShow"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adapter="@{adapter}"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progresBarTvShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTvShow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </RelativeLayout>
 </layout>

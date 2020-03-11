@@ -16,6 +16,9 @@ import com.example.android.databinding.basicsample.data.remote.response.movie.de
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
 import com.example.android.databinding.basicsample.data.viewmodel.MovieViewModel
 import com.example.android.databinding.basicsample.databinding.FragmentMovieBinding
+import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.visible
+import kotlinx.android.synthetic.main.fragment_movie.*
 import org.koin.android.architecture.ext.viewModel
 
 
@@ -64,9 +67,9 @@ class MovieFragment : Fragment(), MovieContract.View {
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-
+                progresBarMovies.visible()
             } else {
-
+                progresBarMovies.hide()
             }
         }
     }

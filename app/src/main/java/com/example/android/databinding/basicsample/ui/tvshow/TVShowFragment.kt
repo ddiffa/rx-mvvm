@@ -16,6 +16,9 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.d
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.viewmodel.TvShowViewModel
 import com.example.android.databinding.basicsample.databinding.FragmentTvshowBinding
+import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.visible
+import kotlinx.android.synthetic.main.fragment_tvshow.*
 import org.koin.android.architecture.ext.viewModel
 
 class TVShowFragment : Fragment(), TvShowContract.View {
@@ -62,9 +65,9 @@ class TVShowFragment : Fragment(), TvShowContract.View {
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-
+                progresBarTvShow.visible()
             } else {
-
+                progresBarTvShow.hide()
             }
         }
     }

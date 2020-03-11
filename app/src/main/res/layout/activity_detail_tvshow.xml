@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/rate"
+                    android:layout_toRightOf="@+id/rates"
                     android:text="@{Float.toString(tvDetail.voteAverage), default =0.0}"
                     android:textColor="@color/colorAccent"
                     android:textSize="24sp" />

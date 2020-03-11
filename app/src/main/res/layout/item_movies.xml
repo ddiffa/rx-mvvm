@@ -3,14 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="movie"
             type="com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem" />
 
         <variable
+            name="sdf"
+            type="String" />
+
+        <variable
             name="image"
             type="String" />
+
         <variable
             name="handler"
             type="com.example.android.databinding.basicsample.handler.EventHandler" />
@@ -51,7 +58,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="4dp"
                         android:fontFamily="@font/mm"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:text="@{movie.title, default = IT}"
                         android:textColor="@android:color/background_dark"
                         android:textSize="18sp"
@@ -69,7 +76,7 @@
                         android:paddingTop="4dp"
                         android:paddingRight="16dp"
                         android:paddingBottom="4dp"
-                        android:text="@{movie.releaseDate, default=0}"
+                        android:text="@{sdf, default=0}"
                         android:textColor="@android:color/white"
                         android:textSize="10sp" />
 
@@ -89,10 +96,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tvOverview"
+                        android:contentDescription="tvItemDetailMovie"
                         android:fontFamily="@font/mm"
                         android:onClick="@{()->handler.onMovieDetailsClick(Integer.toString(movie.id))}"
                         android:text="Details"
-                        android:contentDescription="tvItemDetailMovie"
                         android:textColor="@color/colorPrimary"
                         android:textSize="11sp"
                         android:textStyle="bold" />

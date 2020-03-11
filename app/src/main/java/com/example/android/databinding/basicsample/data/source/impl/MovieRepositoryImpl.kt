@@ -6,23 +6,26 @@ import com.example.android.databinding.basicsample.data.remote.response.movie.de
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
 import com.example.android.databinding.basicsample.data.source.MovieRepository
 import com.example.android.databinding.basicsample.utils.SchedulersProvider
+import java.util.concurrent.TimeUnit
 
 class MovieRepositoryImpl(private val api: MovieAPI, private val schedulersProvider: SchedulersProvider) : MovieRepository {
 
     @SuppressLint("CheckResult")
-    override fun getMovieData(apiKey: String, onSucess: (MovieResponse) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getMovieData(apiKey: String, onSuccess: (MovieResponse) -> Unit, onError: (Throwable) -> Unit) {
         api.getMovies(apiKey)
-                .observeOn(schedulersProvider.ui())
                 .subscribeOn(schedulersProvider.io())
-                .subscribe(onSucess, onError)
+                .delay(3,TimeUnit.SECONDS)
+                .observeOn(schedulersProvider.ui())
+                .subscribe(onSuccess, onError)
     }
 
     @SuppressLint("CheckResult")
-    override fun getMovieDataDetail(apiKey: String, id: String, onSucess: (MovieDetailResponse) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getMovieDataDetail(apiKey: String, id: String, onSuccess: (MovieDetailResponse) -> Unit, onError: (Throwable) -> Unit) {
         api.getMovieDetail(id, apiKey)
-                .observeOn(schedulersProvider.ui())
                 .subscribeOn(schedulersProvider.io())
-                .subscribe(onSucess, onError)
+                .delay(3,TimeUnit.SECONDS)
+                .observeOn(schedulersProvider.ui())
+                .subscribe(onSuccess, onError)
     }
 
 

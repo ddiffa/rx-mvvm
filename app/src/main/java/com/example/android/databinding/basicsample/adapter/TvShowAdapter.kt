@@ -8,6 +8,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.databinding.ItemTvshowBinding
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.ResultsItem
 import com.example.android.databinding.basicsample.handler.EventHandler
+import com.example.android.databinding.basicsample.utils.getSimpleDate
 
 class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
 
@@ -37,6 +38,7 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
             binding.tvShows = tvShow
             binding.image = tvShow.posterPath
             binding.handler = EventHandler(binding.root.context)
+            binding.sdf = getSimpleDate(tvShow.firstAirDate)
         }
 
     }

@@ -8,6 +8,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem
 import com.example.android.databinding.basicsample.databinding.ItemMoviesBinding
 import com.example.android.databinding.basicsample.handler.EventHandler
+import com.example.android.databinding.basicsample.utils.getSimpleDate
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
@@ -40,6 +41,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
             dataBinding.movie = movies
             dataBinding.image = movies.posterPath
             dataBinding.handler = EventHandler(dataBinding.root.context)
+            dataBinding.sdf = getSimpleDate(movies.releaseDate)
         }
 
     }
