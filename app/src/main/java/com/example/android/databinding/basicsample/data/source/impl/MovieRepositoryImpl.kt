@@ -7,7 +7,10 @@ import com.example.android.databinding.basicsample.data.remote.response.movie.no
 import com.example.android.databinding.basicsample.data.source.MovieRepository
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.SchedulersProvider
+import org.koin.dsl.module
 import java.util.concurrent.TimeUnit
+
+
 
 class MovieRepositoryImpl(private val api: MovieAPI, private val schedulersProvider: SchedulersProvider) : MovieRepository {
 

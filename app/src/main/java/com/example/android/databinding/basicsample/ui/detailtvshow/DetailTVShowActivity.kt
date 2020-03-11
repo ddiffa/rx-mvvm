@@ -11,8 +11,13 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.d
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.viewmodel.TvShowViewModel
 import com.example.android.databinding.basicsample.databinding.ActivityDetailTvshowBinding
-import kotlinx.android.synthetic.main.activity_detail_movie.*
-import org.koin.android.architecture.ext.viewModel
+import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.visible
+import kotlinx.android.synthetic.main.activity_detail_movie.imgBack
+import kotlinx.android.synthetic.main.activity_detail_tvshow.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+
 
 class DetailTVShowActivity : AppCompatActivity(), TvShowContract.View {
 
@@ -37,12 +42,21 @@ class DetailTVShowActivity : AppCompatActivity(), TvShowContract.View {
         imgBack.setOnClickListener { onBackPressed() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        layoutDataDetailTvShow.hide()
+        shimmerTvShowDetail.startShimmerAnimation()
+    }
+
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-
+                layoutDataDetailTvShow.hide()
+                shimmerTvShowDetail.visible()
             } else {
-
+                shimmerTvShowDetail.stopShimmerAnimation()
+                shimmerTvShowDetail.hide()
+                layoutDataDetailTvShow.visible()
             }
         }
     }

@@ -33,164 +33,183 @@
             type="com.example.android.databinding.basicsample.data.remote.response.movie.detail.MovieDetailResponse" />
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+
+        <io.supercharge.shimmerlayout.ShimmerLayout
+            android:id="@+id/shimmerMovieDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:shimmer_animation_duration="800">
+
+            <include layout="@layout/item_shimmer_detail" />
+
+        </io.supercharge.shimmerlayout.ShimmerLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layoutDataDetailMovie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:visibility="gone">
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/layoutData"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imgBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:elevation="10dp"
-                    android:src="@drawable/ic_arrow_back_black_24dp" />
-
-
-                <com.github.florent37.shapeofview.shapes.DiagonalView
-                    android:id="@+id/shapeView"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:elevation="5dp"
-                    android:paddingBottom="8dp"
-                    app:shape_diagonal_angle="-10"
-                    app:shape_diagonal_position="bottom">
+                    android:layout_height="250dp">
 
                     <ImageView
-                        android:id="@+id/imgBackdropMovie"
-                        image="@{imageBackdropMovie}"
+                        android:id="@+id/imgBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:elevation="10dp"
+                        android:src="@drawable/ic_arrow_back_black_24dp" />
+
+
+                    <com.github.florent37.shapeofview.shapes.DiagonalView
+                        android:id="@+id/shapeView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@color/colorPrimary" />
-
-
-                </com.github.florent37.shapeofview.shapes.DiagonalView>
-
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="16dp"
-                    android:elevation="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="130dp"
-                        android:layout_height="160dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="4dp"
-                        app:cardUseCompatPadding="true">
+                        android:layout_height="250dp"
+                        android:elevation="5dp"
+                        android:paddingBottom="8dp"
+                        app:shape_diagonal_angle="-10"
+                        app:shape_diagonal_position="bottom">
 
                         <ImageView
-                            android:id="@+id/imgPosterPath"
-                            image="@{imagePosterMovie}"
+                            android:id="@+id/imgBackdropMovie"
+                            image="@{imageBackdropMovie}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@color/colorAccent" />
-                    </androidx.cardview.widget.CardView>
-                </FrameLayout>
+                            android:scaleType="fitXY"
+                            android:src="@color/colorPrimary" />
 
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp">
+                    </com.github.florent37.shapeofview.shapes.DiagonalView>
 
-                <TextView
-                    android:id="@+id/tvTitleDetailMovie"
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="16dp"
+                        android:elevation="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="130dp"
+                            android:layout_height="160dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="4dp"
+                            app:cardUseCompatPadding="true">
+
+                            <ImageView
+                                android:id="@+id/imgPosterPath"
+                                image="@{imagePosterMovie}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@color/colorAccent" />
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
-                    android:layout_toLeftOf="@+id/movieRuntime"
-                    android:fontFamily="@font/ml"
-                    android:paddingRight="8dp"
-                    android:text="@{moviesDetail.title, default = IT}"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="16dp">
+
+                    <TextView
+                        android:id="@+id/tvTitleDetailMovie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:layout_toLeftOf="@+id/movieRuntime"
+                        android:fontFamily="@font/ml"
+                        android:paddingRight="8dp"
+                        android:text="@{moviesDetail.title, default = IT}"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/movieRuntime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bgruntime"
+                        android:fontFamily="@font/mr"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="4dp"
+                        android:text="@{tvRuntime, default=0}"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/movieRuntime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bgruntime"
+                    android:layout_below="@+id/tvTitleDetail"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="16dp"
                     android:fontFamily="@font/mr"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="4dp"
                     android:paddingRight="8dp"
-                    android:paddingBottom="4dp"
-                    android:text="@{tvRuntime, default=0}"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-            </RelativeLayout>
+                    android:text="@{tvGenres, default = Horror}"
+                    android:textSize="11sp"
+                    android:textStyle="italic" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTitleDetail"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:fontFamily="@font/mr"
-                android:paddingRight="8dp"
-                android:text="@{tvGenres, default = Horror}"
-                android:textSize="11sp"
-                android:textStyle="italic" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp">
-
-                <RatingBar
-                    android:id="@+id/rate"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:isIndicator="true"
-                    android:max="10"
-                    android:numStars="5"
-                    android:rating="@{ratingMovie,default=2}"
-                    android:stepSize="0.1" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="16dp">
+
+                    <RatingBar
+                        android:id="@+id/rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:isIndicator="true"
+                        android:max="10"
+                        android:numStars="5"
+                        android:rating="@{ratingMovie,default=2}"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/tvRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/rate"
+                        android:text="@{Float.toString(moviesDetail.voteAverage), default =0.0}"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24sp" />
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tvRate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/rate"
-                    android:text="@{Float.toString(moviesDetail.voteAverage), default =0.0}"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp" />
-            </RelativeLayout>
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/mr"
+                    android:text="@{moviesDetail.overview,default=overview}"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:fontFamily="@font/mr"
-                android:text="@{moviesDetail.overview,default=overview}"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </layout>

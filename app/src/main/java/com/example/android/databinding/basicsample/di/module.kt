@@ -5,18 +5,23 @@ import com.example.android.databinding.basicsample.data.source.impl.MovieReposit
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.data.viewmodel.MovieViewModel
 import com.example.android.databinding.basicsample.data.viewmodel.TvShowViewModel
+import com.example.android.databinding.basicsample.ui.movie.MovieFragment
+import com.example.android.databinding.basicsample.ui.tvshow.TVShowFragment
 import com.example.android.databinding.basicsample.utils.SchedulersProvider
-import org.koin.android.architecture.ext.viewModel
-import org.koin.dsl.module.applicationContext
+import org.koin.androidx.fragment.dsl.fragment
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-val appModule = applicationContext {
+val appModule = module {
     viewModel { MovieViewModel(get()) }
     viewModel { TvShowViewModel(get()) }
 
+    fragment { MovieFragment() }
+    fragment { TVShowFragment() }
 
-    bean { MovieAPI.create() }
-    bean { SchedulersProvider() }
+    single { MovieAPI.create() }
+    single { SchedulersProvider() }
 
-    bean { MovieRepositoryImpl(get(), get()) }
-    bean { TvShowRepositoryImpl(get(),get()) }
+    factory { MovieRepositoryImpl(get(), get()) }
+    factory { TvShowRepositoryImpl(get(), get()) }
 }

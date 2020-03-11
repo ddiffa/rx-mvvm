@@ -10,18 +10,22 @@ import com.example.android.databinding.basicsample.ui.movie.MovieFragment
 import com.example.android.databinding.basicsample.ui.tvshow.TVShowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     private val SELECTED_MENU = "selected_menu"
+    private val movieFragment by inject<MovieFragment>()
+    private val tvShowFragment by inject<TVShowFragment>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState != null) {
             savedInstanceState.getInt(SELECTED_MENU)
         } else {
-            setFragment(MovieFragment.getInstance())
+            setFragment(movieFragment)
         }
         btmNavigationView.setOnNavigationItemSelectedListener(this)
 
@@ -35,10 +39,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when {
             item.itemId == R.id.action_movie -> {
-                setFragment(MovieFragment.getInstance())
+                setFragment(movieFragment)
             }
             item.itemId == R.id.action_tv_show -> {
-                setFragment(TVShowFragment.getInstance())
+                setFragment(tvShowFragment)
             }
         }
         return true

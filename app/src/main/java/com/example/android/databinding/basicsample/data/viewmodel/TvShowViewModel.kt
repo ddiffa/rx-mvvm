@@ -6,6 +6,7 @@ import com.example.android.databinding.basicsample.data.contract.TvShowContract
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import org.koin.dsl.module
 
 class TvShowViewModel(private val tvShowRepositoryImpl: TvShowRepositoryImpl) : ViewModel(), TvShowContract.ViewModel {
 

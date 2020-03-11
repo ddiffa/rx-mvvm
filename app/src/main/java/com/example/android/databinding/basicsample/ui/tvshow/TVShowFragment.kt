@@ -19,20 +19,14 @@ import com.example.android.databinding.basicsample.databinding.FragmentTvshowBin
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.fragment_tvshow.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class TVShowFragment : Fragment(), TvShowContract.View {
 
     private lateinit var binding: FragmentTvshowBinding
     private lateinit var adapter: TvShowAdapter
     private val viewModel by viewModel<TvShowViewModel>()
-
-    companion object {
-        @JvmStatic
-        fun getInstance(): Fragment {
-            return TVShowFragment()
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -47,27 +41,37 @@ class TVShowFragment : Fragment(), TvShowContract.View {
 
         adapter = TvShowAdapter()
         viewModel.apply {
-            _isLoading.observe(this@TVShowFragment, Observer {
+            _isLoading.observe(viewLifecycleOwner, Observer {
                 observeLoading(it)
             })
-            _isError.observe(this@TVShowFragment, Observer {
+            _isError.observe(viewLifecycleOwner, Observer {
                 observeError(it)
             })
-            _tvShows.observe(this@TVShowFragment, Observer {
+            _tvShows.observe(viewLifecycleOwner, Observer {
                 observeTvShows(it)
             })
         }
 
-        viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
         binding.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rvTvShow.hide()
+        shimmerTvShow.startShimmerAnimation()
+        shimmerTvShow.visible()
+        viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
     }
 
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-                progresBarTvShow.visible()
+                shimmerTvShow.visible()
+                rvTvShow.hide()
             } else {
-                progresBarTvShow.hide()
+                shimmerTvShow.stopShimmerAnimation()
+                shimmerTvShow.hide()
+                rvTvShow.visible()
             }
         }
     }

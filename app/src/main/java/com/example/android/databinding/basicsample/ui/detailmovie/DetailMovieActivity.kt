@@ -12,8 +12,12 @@ import com.example.android.databinding.basicsample.data.remote.response.movie.no
 import com.example.android.databinding.basicsample.data.viewmodel.MovieViewModel
 import com.example.android.databinding.basicsample.databinding.ActivityDetailMovieBinding
 import com.example.android.databinding.basicsample.utils.convertRuntime
+import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+
 
 class DetailMovieActivity : AppCompatActivity(), MovieContract.View {
     private lateinit var binding: ActivityDetailMovieBinding
@@ -41,12 +45,21 @@ class DetailMovieActivity : AppCompatActivity(), MovieContract.View {
         imgBack.setOnClickListener { onBackPressed() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        layoutDataDetailMovie.hide()
+        shimmerMovieDetail.startShimmerAnimation()
+    }
+
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-
+                shimmerMovieDetail.visible()
+                layoutDataDetailMovie.hide()
             } else {
-
+                shimmerMovieDetail.stopShimmerAnimation()
+                shimmerMovieDetail.hide()
+                layoutDataDetailMovie.visible()
             }
         }
     }

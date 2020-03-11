@@ -7,7 +7,10 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.p
 import com.example.android.databinding.basicsample.data.source.TvShowRepository
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.SchedulersProvider
+import org.koin.dsl.module
 import java.util.concurrent.TimeUnit
+
+
 
 class TvShowRepositoryImpl(private val api: MovieAPI,
                            private val schedulersProvider: SchedulersProvider) : TvShowRepository {

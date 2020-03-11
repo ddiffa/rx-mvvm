@@ -19,7 +19,7 @@ import com.example.android.databinding.basicsample.databinding.FragmentMovieBind
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.fragment_movie.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MovieFragment : Fragment(), MovieContract.View {
@@ -29,12 +29,6 @@ class MovieFragment : Fragment(), MovieContract.View {
 
     private lateinit var adapter: MovieAdapter
 
-    companion object {
-        @JvmStatic
-        fun getInstance(): Fragment {
-            return MovieFragment()
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,34 +36,45 @@ class MovieFragment : Fragment(), MovieContract.View {
         return binding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         adapter = MovieAdapter()
 
         viewModel.apply {
-            _isLoading.observe(this@MovieFragment, Observer<Boolean> {
+            _isLoading.observe(viewLifecycleOwner, Observer<Boolean> {
                 observeLoading(it)
             })
-            _isError.observe(this@MovieFragment, Observer {
+            _isError.observe(viewLifecycleOwner, Observer {
                 observeError(it)
             })
-            _movies.observe(this@MovieFragment, Observer {
+            _movies.observe(viewLifecycleOwner, Observer {
                 observeMovies(it)
             })
         }
 
-        viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
         binding.adapter = adapter
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        rvMovie.hide()
+        shimmerMovie.startShimmerAnimation()
+        shimmerMovie.visible()
+        viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
+    }
+
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
             if (it) {
-                progresBarMovies.visible()
+                shimmerMovie.visible()
+                rvMovie.hide()
             } else {
-                progresBarMovies.hide()
+                shimmerMovie.stopShimmerAnimation()
+                shimmerMovie.hide()
+                rvMovie.visible()
             }
         }
     }

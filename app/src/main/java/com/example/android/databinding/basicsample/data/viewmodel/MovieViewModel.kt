@@ -6,6 +6,9 @@ import com.example.android.databinding.basicsample.data.contract.MovieContract
 import com.example.android.databinding.basicsample.data.remote.response.movie.detail.MovieDetailResponse
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
+import org.koin.dsl.module
+
+
 
 class MovieViewModel(private val movieRepositoryImpl: MovieRepositoryImpl) : ViewModel(), MovieContract.ViewModel {
 

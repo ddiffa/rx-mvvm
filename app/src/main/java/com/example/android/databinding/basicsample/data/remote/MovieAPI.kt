@@ -7,6 +7,7 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.p
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,6 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
+
 
 interface MovieAPI {
 
@@ -24,10 +26,10 @@ interface MovieAPI {
     fun getTvShows(@Query("api_key") apiKey: String): Observable<TvShowResponse>
 
     @GET("tv/{id}")
-    fun getTvShowDetail(@Path("id") id: String,@Query("api_key") apiKey: String): Observable<TvShowDetailResponse>
+    fun getTvShowDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<TvShowDetailResponse>
 
     @GET("movie/{id}")
-    fun getMovieDetail(@Path("id") id: String,@Query("api_key") apiKey: String): Observable<MovieDetailResponse>
+    fun getMovieDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<MovieDetailResponse>
 
     companion object Factory {
         fun create(): MovieAPI {
@@ -46,7 +48,7 @@ interface MovieAPI {
             return retrofit.create(MovieAPI::class.java)
         }
 
-        private fun makeLoggingInterceptor(isDebug : Boolean) : HttpLoggingInterceptor{
+        private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
             val logging = HttpLoggingInterceptor()
             logging.level = if (isDebug) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             return logging;
