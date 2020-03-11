@@ -19,6 +19,10 @@
             type="String" />
 
         <variable
+            name="rating"
+            type="Float" />
+
+        <variable
             name="tvDetail"
             type="com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse" />
     </data>
@@ -79,11 +83,11 @@
                         app:cardUseCompatPadding="true">
 
                         <ImageView
-                            image="@{imageCirclePosterTV}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@color/colorAccent" />
+                            android:src="@color/colorAccent"
+                            app:image="@{imageCirclePosterTV}" />
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
 
@@ -148,13 +152,14 @@
                 android:layout_marginRight="16dp">
 
                 <RatingBar
-                    android:id="@+id/rate"
+                    android:id="@+id/rates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:isIndicator="true"
                     android:max="10"
                     android:numStars="5"
+                    android:rating="@{rating, default=3}"
                     android:stepSize="0.5" />
 
                 <TextView

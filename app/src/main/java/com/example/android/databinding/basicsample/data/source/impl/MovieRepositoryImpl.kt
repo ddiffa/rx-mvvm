@@ -19,7 +19,7 @@ class MovieRepositoryImpl(private val api: MovieAPI, private val schedulersProvi
 
     @SuppressLint("CheckResult")
     override fun getMovieDataDetail(apiKey: String, id: String, onSucess: (MovieDetailResponse) -> Unit, onError: (Throwable) -> Unit) {
-        api.getMovieDetail(apiKey, id)
+        api.getMovieDetail(id, apiKey)
                 .observeOn(schedulersProvider.ui())
                 .subscribeOn(schedulersProvider.io())
                 .subscribe(onSucess, onError)

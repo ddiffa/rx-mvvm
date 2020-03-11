@@ -65,9 +65,12 @@ class DetailMovieActivity : AppCompatActivity(), MovieContract.View {
             genres += genre.name.toString() + ", "
         }
         binding.moviesDetail = movies
-        binding.imageBackdrop = movies.backdropPath
-        binding.imageCirclePoster = movies.posterPath
+
+        binding.imageBackdropMovie = movies.backdropPath
+        binding.imagePosterMovie = movies.posterPath
         binding.tvRuntime = convertRuntime(movies.runtime.toString())
         binding.tvGenres = genres
+        binding.ratingMovie = movies.voteAverage?.div(2)
+
     }
 }

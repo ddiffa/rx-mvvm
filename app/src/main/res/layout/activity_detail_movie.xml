@@ -9,12 +9,16 @@
         <import type="android.view.View" />
 
         <variable
-            name="imageCirclePoster"
+            name="imagePosterMovie"
             type="String" />
 
         <variable
-            name="imageBackdrop"
+            name="imageBackdropMovie"
             type="String" />
+
+        <variable
+            name="ratingMovie"
+            type="Float" />
 
         <variable
             name="tvRuntime"
@@ -62,11 +66,12 @@
                     app:shape_diagonal_position="bottom">
 
                     <ImageView
+                        android:id="@+id/imgBackdropMovie"
+                        image="@{imageBackdropMovie}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@color/colorPrimary"
-                        app:image="@{imageBackdrop}" />
+                        android:src="@color/colorPrimary" />
 
 
                 </com.github.florent37.shapeofview.shapes.DiagonalView>
@@ -87,7 +92,8 @@
                         app:cardUseCompatPadding="true">
 
                         <ImageView
-                            image="@{imageCirclePoster}"
+                            android:id="@+id/imgPosterPath"
+                            image="@{imagePosterMovie}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
@@ -162,7 +168,8 @@
                     android:isIndicator="true"
                     android:max="10"
                     android:numStars="5"
-                    android:stepSize="0.5" />
+                    android:rating="@{ratingMovie,default=2}"
+                    android:stepSize="0.1" />
 
                 <TextView
                     android:id="@+id/tvRate"

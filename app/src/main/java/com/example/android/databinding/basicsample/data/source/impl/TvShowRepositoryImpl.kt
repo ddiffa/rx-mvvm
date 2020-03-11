@@ -19,7 +19,7 @@ class TvShowRepositoryImpl(private val api: MovieAPI,
 
     @SuppressLint("CheckResult")
     override fun getTvShowDetail(apiKey: String, id: String, onSucces: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit) {
-        api.getTvShowDetail(apiKey, id)
+        api.getTvShowDetail(id, apiKey)
                 .observeOn(schedulersProvider.ui())
                 .subscribeOn(schedulersProvider.io())
                 .subscribe(onSucces, onError)
