@@ -1,43 +1,25 @@
-package com.example.android.databinding.basicsample.data.viewmodel
+package com.example.android.databinding.basicsample.ui.viewmodel
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.android.databinding.basicsample.data.contract.MovieContract
-import com.example.android.databinding.basicsample.data.remote.response.movie.detail.MovieDetailResponse
-import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
-import org.koin.dsl.module
+import com.example.android.databinding.basicsample.ui.contract.MovieContract
+import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieViewState
 
 
+class MovieViewModel(private val movieRepositoryImpl: MovieRepositoryImpl) : ViewModel() {
 
-class MovieViewModel(private val movieRepositoryImpl: MovieRepositoryImpl) : ViewModel(), MovieContract.ViewModel {
+    val movieListState = MutableLiveData<MovieViewState>()
 
-    val _isLoading = MutableLiveData<Boolean>()
-    val _isError = MutableLiveData<Throwable>()
-    val _movies = MutableLiveData<MovieResponse>()
-    val _moviesDetail = MutableLiveData<MovieDetailResponse>()
-
-    override fun getMovies(apiKey: String) {
-        _isLoading.postValue(true)
+    fun getMovies(apiKey: String) {
         movieRepositoryImpl.getMovieData(apiKey, {
-            _isLoading.postValue(false)
-            _movies.postValue(it)
+            MovieViewState.SUCCESS_STATE.data = it
+            movieListState.postValue(MovieViewState.SUCCESS_STATE)
         }, {
-            _isLoading.postValue(false)
-            _isError.postValue(it)
-        })
-    }
-
-    override fun getMoviesDetail(apiKey: String, id: String) {
-        _isLoading.postValue(true)
-        movieRepositoryImpl.getMovieDataDetail(apiKey, id, {
-            _isLoading.postValue(false)
-            _moviesDetail.postValue(it)
+            MovieViewState.ERROR_STATE.error = it
+            movieListState.postValue(MovieViewState.ERROR_STATE)
         }, {
-            _isLoading.postValue(false)
-            _isError.postValue(it)
+            movieListState.postValue(MovieViewState.LOADING_STATE)
         })
     }
 

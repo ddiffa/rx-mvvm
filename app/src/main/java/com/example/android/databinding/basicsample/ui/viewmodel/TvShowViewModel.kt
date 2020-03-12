@@ -1,40 +1,26 @@
-package com.example.android.databinding.basicsample.data.viewmodel
+package com.example.android.databinding.basicsample.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.android.databinding.basicsample.data.contract.TvShowContract
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
-import org.koin.dsl.module
+import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowViewState
 
-class TvShowViewModel(private val tvShowRepositoryImpl: TvShowRepositoryImpl) : ViewModel(), TvShowContract.ViewModel {
+class TvShowViewModel(private val tvShowRepositoryImpl: TvShowRepositoryImpl) : ViewModel() {
 
-    val _isLoading = MutableLiveData<Boolean>()
-    val _isError = MutableLiveData<Throwable>()
-    val _tvShows = MutableLiveData<TvShowResponse>()
-    val _tvShowDetail = MutableLiveData<TvShowDetailResponse>()
+    val tvShowListState = MutableLiveData<TvShowViewState>()
 
-    override fun getTvShow(apiKey: String) {
-        _isLoading.postValue(true)
+    fun getTvShow(apiKey: String) {
+
         tvShowRepositoryImpl.getTvShow(apiKey, {
-            _isLoading.postValue(false)
-            _tvShows.postValue(it)
+            TvShowViewState.SUCCESS_STATE.data = it
+            tvShowListState.postValue(TvShowViewState.SUCCESS_STATE)
         }, {
-            _isLoading.postValue(false)
-            _isError.postValue(it)
+            TvShowViewState.ERROR_STATE.error = it
+            tvShowListState.postValue(TvShowViewState.ERROR_STATE)
+        }, {
+            tvShowListState.postValue(TvShowViewState.LOADING_STATE)
         })
     }
 
-    override fun getTvShowDetail(apiKey: String, id: String) {
-        _isLoading.postValue(true)
-        tvShowRepositoryImpl.getTvShowDetail(apiKey, id, {
-            _isLoading.postValue(false)
-            _tvShowDetail.postValue(it)
-        }, {
-            _isLoading.postValue(false)
-            _isError.postValue(it)
-        })
-    }
 
 }
