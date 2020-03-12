@@ -3,7 +3,6 @@ package com.example.android.databinding.basicsample.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
-import com.example.android.databinding.basicsample.ui.contract.MovieContract
 import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieViewState
 
 

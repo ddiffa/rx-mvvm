@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.adapter
+package com.example.android.databinding.basicsample.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.databinding.ItemTvshowBinding
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.ResultsItem
-import com.example.android.databinding.basicsample.handler.EventHandler
+import com.example.android.databinding.basicsample.ui.handler.EventHandler
 import com.example.android.databinding.basicsample.utils.getSimpleDate
 
 class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
@@ -28,7 +28,9 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
         list[position]?.let { holder.bind(it) }
     }
     fun setTvShows(list: List<ResultsItem?>) {
-        if (list == null) return
+        if (this.list.isNotEmpty()) {
+            this.list.clear()
+        }
         this.list.clear()
         this.list.addAll(list)
     }

@@ -1,143 +1,124 @@
-//package com.example.android.databinding.basicsample.util
-//
-//import com.example.android.databinding.basicsample.data.entity.MovieEntity
-//import com.example.android.databinding.basicsample.data.entity.TvShowEntity
-//
-//fun generateDummyMovie(): ArrayList<MovieEntity> {
-//
-//    var movies = ArrayList<MovieEntity>()
-//    movies.add(
-//            MovieEntity(
-//                    "169",
-//                    "Horror,Comedy",
-//                    "/zfE0R94v1E8cuKAerbskfD3VfUt.jpg",
-//                    "/4W0FnjSGn4x0mKZlBRx8OjFxQUM.jpg",
-//                    "It Chapter Two",
-//                    7.2F,
-//                    "27 years after overcoming the malevolent supernatural entity Pennywise, the former members of the Losers' Club, who have grown up and moved away from Derry, are brought back together by a devastating phone call.",
-//                    "2019-09-06"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    107.toString(),
-//                    "Comedy,Crime,Drama",
-//                    "/y9IcwcD95wCPR3IGbzlZ00f64Sj.jpg",
-//                    "/jTab4cf4X1dJJVS4F8UOGuesvPd.jpg",
-//                    "Hustlers",
-//                    6.8F,
-//                    "A crew of savvy former strip club employees band together to turn the tables on their Wall Street clients.",
-//                    "2019-09-12"
-//            )
-//    )
-//    movies.add(
-//            MovieEntity(
-//                    126.toString(),
-//                    "Action",
-//                    "/fapXd3v9qTcNBTm39ZC4KUVQDNf.jpg",
-//                    "/k2WyDw2NTUIWnuEs5gT7wgrCQg6.jpg",
-//                    "Angel Has Fallen",
-//                    5.6F,
-//                    "Secret Service Agent Mike Banning is framed for the attempted assassination of the President and must evade his own agency and the FBI as he tries to uncover the real threat.",
-//                    "2019-08-21"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    90.toString(),
-//                    "Comedy",
-//                    "/jIthqo2tQmW8TFN1fYpF8FmVL0o.jpg",
-//                    "/6Xsz9KHQmCcIcj3CoWQq5eLtVoT.jpg",
-//                    "Good Boys",
-//                    6.6F,
-//                    "A group of young boys on the cusp of becoming teenagers embark on an epic quest to fix their broken drone before their parents get home.",
-//                    "2019-08-14"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    98.toString(),
-//                    "Thriller,Crime,Mystery",
-//                    "/vVYU0x9FRpiJNX7c54ciFnRBVYG.jpg",
-//                    "/6rJAeP8xlq0bHUdCNg5epBvrFVa.jpg",
-//                    "Night Hunter",
-//                    6.2F,
-//                    "A police task force traps an online predator, only to discover that the depth of his crimes goes far beyond anything they had anticipated.",
-//                    "2019-08-29"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    118.toString(),
-//                    "Adventure,Animation,Family,Drama",
-//                    "/2bXbqYdUdNVa8VIWXVfclP2ICtT.jpg",
-//                    "/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg",
-//                    "The Lion King",
-//                    7.2F,
-//                    "Simba idolises his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
-//                    "2019-07-12"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    136.toString(),
-//                    "Action",
-//                    "/keym7MPn1icW1wWfzMnW3HeuzWU.jpg",
-//                    "/hpgda6P9GutvdkDX5MUJ92QG9aj.jpg",
-//                    "Fast & Furious Presents: Hobbs & Shaw",
-//                    6.5F,
-//                    "A spinoff of The Fate of the Furious, focusing on Johnson's US Diplomatic Security Agent Luke Hobbs forming an unlikely alliance with Statham's Deckard Shaw.",
-//                    "2019-08-01"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    119.toString(),
-//                    "Thriller,Action",
-//                    "/AlN758e1JphXDV9zeh6ZK3Um2KT.jpg",
-//                    "/4XYxM4ZHX2mtdZe0z1psNUr7rxK.jpg",
-//                    "Anna",
-//                    6.6F,
-//                    "Beneath Anna Poliatova's striking beauty lies a secret that will unleash her indelible strength and skill to become one of the world's most feared government assassins.",
-//                    "2019-06-19"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    116.toString(),
-//                    "Comedy,Music,Romance,Fantasy",
-//                    "/7QPdjLr46huVv25W0eO2XZGOj3O.jpg",
-//                    "/pWozCsrzMJzN8dbOm330sCKqdml.jpg",
-//                    "Yesterday",
-//                    6.8F,
-//                    "Jack Malik is a struggling singer-songwriter in an English seaside town whose dreams of fame are rapidly fading, despite the fierce devotion and support of his childhood best friend, Ellie. After a freak bus accident during a mysterious global blackout, Jack wakes up to discover that he's the only person on Earth who can remember The Beatles.",
-//                    "2019-06-27"
-//            )
-//    )
-//
-//    movies.add(
-//            MovieEntity(
-//                    90.toString(),
-//                    "Horror, Science Fiction",
-//                    "/rpS7ROczWulqfaXG2klYapULXKm.jpg",
-//                    "/vHse4QK31Vc3X7BKKU5GOQhYxv6.jpg",
-//                    "Child's Play",
-//                    6.0F,
-//                    "Karen, a single mother, gifts her son Andy a Buddi doll for his birthday, unaware of its more sinister nature. A contemporary re-imagining of the 1988 horror classic.",
-//                    "2019-06-19"
-//            )
-//    )
-//    return movies;
-//
-//}
-//
+package com.example.android.databinding.basicsample.util
+
+import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem
+
+fun generateDummyMovie(): ArrayList<ResultsItem> {
+
+    var movies = ArrayList<ResultsItem>()
+    movies.add(
+            ResultsItem(
+                    "Based on the global blockbuster videogame franchise from Sega, Sonic the Hedgehog tells the story of the world’s speediest hedgehog as he embraces his new home on Earth. In this live-action adventure comedy, Sonic and his new best friend team up to defend the planet from the evil genius Dr. Robotnik and his plans for world domination.",
+                    "en",
+                    "Sonic the Hedgehog",
+                    false,
+                    "Sonic the Hedgehog",
+                    listOf(28,35,878,10751),
+                    "/aQvJ5WPzZgYVDrxLX4R6cLJCEaQ.jpg",
+                    "/stmYfCUGd8Iy6kAMBr6AmWqx8Bq.jpg",
+                    "2020-02-12",
+                    294.837,
+                    7.2F,
+                    169,
+                    true,
+                    862
+            )
+    )
+    movies.add(
+            ResultsItem(
+                    "After her breakup with the Joker, Harley Quinn joins forces with singer Black Canary, assassin Huntress, and police detective Renee Montoya to help a young girl named Cassandra, who had a hit placed on her after she stole a rare diamond from crime lord Roman Sionis.",
+                    "en",
+                    "Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)",
+                    false,
+                    "Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)",
+                    listOf(28,80,35),
+                    "/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg",
+                    "/2s1ofreBI8EFzIyL3SQrLRqO5Zx.jpg",
+                    "2020-02-05",
+                    205.76,
+                    6.8F,
+                    495764,
+                    false,
+                    1203
+            )
+    )
+    movies.add(
+            ResultsItem(
+                    "After he and his wife are murdered, marine Ray Garrison is resurrected by a team of scientists. Enhanced with nanotechnology, he becomes a superhuman, biotech killing machine - Bloodshot. As Ray first trains with fellow super-soldiers, he cannot recall anything from his former life. But when his memories flood back and he remembers the man that killed both him and his wife, he breaks out of the facility to get revenge, only to discover that there's more to the conspiracy than he thought.",
+                    "en",
+                    "Bloodshot",
+                    false,
+                    "Bloodshot",
+                    listOf(28,18,14,878),
+                    "/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg",
+                    "/ocUrMYbdjknu2TwzMHKT9PBBQRw.jpg",
+                    "2020-02-20",
+                    143.374,
+                    5.8F,
+                    338762,
+                    false,
+                    70
+            )
+    )
+
+    movies.add(
+            ResultsItem(
+                    "At the height of the First World War, two young British soldiers must cross enemy territory and deliver a message that will stop a deadly attack on hundreds of soldiers.",
+                    "en",
+                    "1917",
+                    false,
+                    "1917",
+                    listOf(28,18,10752),
+                    "/AuGiPiGMYMkSosOJ3BQjDEAiwtO.jpg",
+                    "/cqa3sa4c4jevgnEJwq3CMF8UfTG.jpg",
+                    "2019-12-25",
+                    135.899,
+                    8F,
+                    530915,
+                    false,
+                    3132
+            )
+    )
+
+    movies.add(
+            ResultsItem(
+                    "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident.",
+                    "ko",
+                    "기생충",
+                    false,
+                    "Parasite",
+                    listOf(35,18,53),
+                    "/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+                    "/TU9NIjwzjoKPwQHoHshkFcQUCG.jpg",
+                    "2019-05-30",
+                    104.288,
+                    8.6F,
+                    496243,
+                    false,
+                    5057
+            )
+    )
+    movies.add(
+            ResultsItem(
+                    "When Cecilia's abusive ex takes his own life and leaves her his fortune, she suspects his death was a hoax. As a series of coincidences turn lethal, Cecilia works to prove that she is being hunted by someone nobody can see.",
+                    "en",
+                    "The Invisible Man",
+                    false,
+                    "The Invisible Man",
+                    listOf(35,18,53),
+                    "/4U7hpTK0XTQBKT5X60bKmJd05ha.jpg",
+                    "/uZMZyvarQuXLRqf3xdpdMqzdtjb.jpg",
+                    "2020-02-26",
+                    114.654,
+                    7.2F,
+                    570670,
+                    false,
+                    364
+            )
+    )
+    return movies;
+
+}
+
 //fun generateDummyTvShow(): ArrayList<TvShowEntity> {
 //    var tvShows = ArrayList<TvShowEntity>()
 //
@@ -277,7 +258,7 @@
 //    )
 //    return tvShows
 //}
-//
+
 //fun getMovie(movieName: String): MovieEntity? {
 //    for (i in 0 until generateDummyMovie().size) {
 //        val movie = generateDummyMovie()[i]
@@ -293,4 +274,4 @@
 //    }
 //    return null
 //}
-//
+

@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.handler
+package com.example.android.databinding.basicsample.ui.handler
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,7 @@ import com.example.android.databinding.basicsample.ui.feature.detailtvshow.Detai
 
 open class EventHandler(context: Context) {
 
-    val mContext: Context = context
-
+    private val mContext: Context = context
 
     fun onMovieDetailsClick(id: String) {
         val intent = Intent(mContext, DetailMovieActivity::class.java)

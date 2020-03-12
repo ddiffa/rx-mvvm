@@ -6,7 +6,7 @@
 
         <variable
             name="adapter"
-            type="com.example.android.databinding.basicsample.adapter.MovieAdapter" />
+            type="com.example.android.databinding.basicsample.ui.adapter.MovieAdapter" />
     </data>
 
 

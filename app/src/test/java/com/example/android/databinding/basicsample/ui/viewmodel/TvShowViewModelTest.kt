@@ -1,4 +1,4 @@
-//package com.example.android.databinding.basicsample.data.viewmodel
+//package com.example.android.databinding.basicsample.ui.viewmodel
 //
 //import com.example.android.databinding.basicsample.data.entity.TvShowEntity
 //import com.example.android.databinding.basicsample.utils.generateDummyTvShow

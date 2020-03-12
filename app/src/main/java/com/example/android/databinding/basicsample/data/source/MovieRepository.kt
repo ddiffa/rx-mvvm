@@ -5,7 +5,7 @@ import com.example.android.databinding.basicsample.data.remote.response.movie.no
 
 interface MovieRepository {
 
-    fun getMovieData(apiKey: String, onSuccess: (MovieResponse) -> Unit, onError: (Throwable) -> Unit)
+    fun getMovieData(apiKey: String, onSuccess: (MovieResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit)
 
-    fun getMovieDataDetail(apiKey: String, id : String, onSuccess: (MovieDetailResponse) -> Unit, onError: (Throwable) -> Unit)
+    fun getMovieDataDetail(apiKey: String, id: String, onSuccess: (MovieDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit)
 }

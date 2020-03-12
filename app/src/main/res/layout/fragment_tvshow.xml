@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    tools:context=".ui.tvshow.TVShowFragment">
+    tools:context=".ui.feature.tvshow.TVShowFragment">
 
     <data>
 
         <variable
             name="adapter"
-            type="com.example.android.databinding.basicsample.adapter.TvShowAdapter" />
+            type="com.example.android.databinding.basicsample.ui.adapter.TvShowAdapter" />
     </data>
 
 

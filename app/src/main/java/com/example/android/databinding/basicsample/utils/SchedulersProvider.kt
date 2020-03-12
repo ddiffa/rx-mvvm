@@ -6,17 +6,14 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.dsl.module
 
 
-class SchedulersProvider {
+class SchedulersProvider : AppScheduler {
 
-    fun ui(): Scheduler {
+    override fun ui(): Scheduler {
         return AndroidSchedulers.mainThread()
     }
 
-    fun io(): Scheduler {
+    override fun io(): Scheduler {
         return Schedulers.io()
     }
 
-    fun computation(): Scheduler {
-        return Schedulers.computation()
-    }
 }

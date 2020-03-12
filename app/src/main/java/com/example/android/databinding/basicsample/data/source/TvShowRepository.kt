@@ -5,7 +5,7 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.p
 
 interface TvShowRepository {
 
-    fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit)
+    fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit, onLoading : () -> Unit)
 
-    fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit)
+    fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit)
 }

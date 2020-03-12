@@ -20,7 +20,7 @@
 
         <variable
             name="handler"
-            type="com.example.android.databinding.basicsample.handler.EventHandler" />
+            type="com.example.android.databinding.basicsample.ui.handler.EventHandler" />
     </data>
 
     <RelativeLayout

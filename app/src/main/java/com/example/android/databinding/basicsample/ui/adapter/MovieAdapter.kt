@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.adapter
+package com.example.android.databinding.basicsample.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem
 import com.example.android.databinding.basicsample.databinding.ItemMoviesBinding
-import com.example.android.databinding.basicsample.handler.EventHandler
+import com.example.android.databinding.basicsample.ui.handler.EventHandler
 import com.example.android.databinding.basicsample.utils.getSimpleDate
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -15,9 +15,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     private val list = ArrayList<ResultsItem?>()
 
     fun setMovies(list: List<ResultsItem?>?) {
-        if (list == null) return
-        this.list.clear()
-        this.list.addAll(list)
+        if (this.list.isNotEmpty()) {
+            this.list.clear()
+        }
+        list?.let { this.list.addAll(it) }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

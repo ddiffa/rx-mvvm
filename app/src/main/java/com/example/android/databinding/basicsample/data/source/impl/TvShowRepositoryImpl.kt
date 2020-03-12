@@ -7,20 +7,23 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.p
 import com.example.android.databinding.basicsample.data.source.TvShowRepository
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.SchedulersProvider
-import org.koin.dsl.module
 import java.util.concurrent.TimeUnit
 
 
-
-class TvShowRepositoryImpl(private val api: MovieAPI,
-                           private val schedulersProvider: SchedulersProvider) : TvShowRepository {
+class TvShowRepositoryImpl(
+        private val schedulersProvider: SchedulersProvider) : TvShowRepository {
     @SuppressLint("CheckResult")
-    override fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
         EspressoIdlingResource.increment()
-        api.getTvShows(apiKey)
+        MovieAPI.INSTANCE.getTvShows(apiKey)
                 .subscribeOn(schedulersProvider.io())
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(schedulersProvider.ui())
+                .doOnEach {
+                    if (it.isOnNext) {
+                        onLoading
+                    }
+                }
                 .doOnComplete {
                     EspressoIdlingResource.decrement()
                 }
@@ -28,12 +31,17 @@ class TvShowRepositoryImpl(private val api: MovieAPI,
     }
 
     @SuppressLint("CheckResult")
-    override fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
         EspressoIdlingResource.increment()
-        api.getTvShowDetail(id, apiKey)
+        MovieAPI.INSTANCE.getTvShowDetail(id, apiKey)
                 .subscribeOn(schedulersProvider.io())
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(schedulersProvider.ui())
+                .doOnEach {
+                    if (it.isOnNext) {
+                        onLoading
+                    }
+                }
                 .doOnComplete {
                     EspressoIdlingResource.decrement()
                 }

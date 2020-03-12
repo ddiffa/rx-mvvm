@@ -6,14 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.ui.movie.MovieFragment
-import com.example.android.databinding.basicsample.ui.tvshow.TVShowFragment
+import com.example.android.databinding.basicsample.ui.feature.movie.MovieFragment
+import com.example.android.databinding.basicsample.ui.feature.tvshow.TVShowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
 
     private val SELECTED_MENU = "selected_menu"
     private val movieFragment by inject<MovieFragment>()
@@ -28,7 +27,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             setFragment(movieFragment)
         }
         btmNavigationView.setOnNavigationItemSelectedListener(this)
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

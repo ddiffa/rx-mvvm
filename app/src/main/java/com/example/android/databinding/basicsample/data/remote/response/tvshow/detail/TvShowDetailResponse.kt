@@ -20,7 +20,7 @@ data class TvShowDetailResponse(
 	val backdropPath: String? = null,
 
 	@field:SerializedName("genres")
-	val genres: List<GenresItem>,
+	val genres: List<GenresItem?>? = null,
 
 	@field:SerializedName("popularity")
 	val popularity: Float? = null,
