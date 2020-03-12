@@ -42,11 +42,6 @@ class DetailTVShowActivity : AppCompatActivity(), TvShowContract.View {
         imgBack.setOnClickListener { onBackPressed() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        layoutDataDetailTvShow.hide()
-        shimmerTvShowDetail.startShimmerAnimation()
-    }
 
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {

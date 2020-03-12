@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample
+package com.example.android.databinding.basicsample.base
 
 import android.app.Application
 import com.example.android.databinding.basicsample.di.appModule

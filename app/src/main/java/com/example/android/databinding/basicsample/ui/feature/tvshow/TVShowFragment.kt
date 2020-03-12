@@ -52,16 +52,10 @@ class TVShowFragment : Fragment(), TvShowContract.View {
             })
         }
 
+        viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
         binding.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        rvTvShow.hide()
-        shimmerTvShow.startShimmerAnimation()
-        shimmerTvShow.visible()
-        viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
-    }
 
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {

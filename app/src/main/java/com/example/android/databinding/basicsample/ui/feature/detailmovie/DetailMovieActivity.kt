@@ -45,11 +45,6 @@ class DetailMovieActivity : AppCompatActivity(), MovieContract.View {
         imgBack.setOnClickListener { onBackPressed() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        layoutDataDetailMovie.hide()
-        shimmerMovieDetail.startShimmerAnimation()
-    }
 
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {

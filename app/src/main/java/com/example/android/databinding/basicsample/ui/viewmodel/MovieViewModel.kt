@@ -1,5 +1,7 @@
 package com.example.android.databinding.basicsample.data.viewmodel
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.databinding.basicsample.data.contract.MovieContract
@@ -38,4 +40,5 @@ class MovieViewModel(private val movieRepositoryImpl: MovieRepositoryImpl) : Vie
             _isError.postValue(it)
         })
     }
+
 }

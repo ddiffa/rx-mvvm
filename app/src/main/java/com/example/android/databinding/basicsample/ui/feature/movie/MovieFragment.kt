@@ -54,17 +54,10 @@ class MovieFragment : Fragment(), MovieContract.View {
             })
         }
 
+        viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
         binding.adapter = adapter
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        rvMovie.hide()
-        shimmerMovie.startShimmerAnimation()
-        shimmerMovie.visible()
-        viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
-    }
 
     override fun observeLoading(isLoading: Boolean?) {
         isLoading?.let {
