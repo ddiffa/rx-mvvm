@@ -22,6 +22,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getMovieList(): ArrayList<ResultsItem?> {
+        return list
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 

@@ -41,6 +41,7 @@ class MovieFragment : Fragment() {
         viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
     }
 
+
     private fun observeDataChange() {
         viewModel.movieListState.observe(viewLifecycleOwner, Observer {
             when (it.currentState) {

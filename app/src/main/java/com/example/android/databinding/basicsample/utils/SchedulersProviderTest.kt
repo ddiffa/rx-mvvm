@@ -1,19 +1,14 @@
 package com.example.android.databinding.basicsample.utils
 
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.koin.dsl.module
 
-
-//class SchedulersProvider : AppScheduler {
-//
+//class SchedulersProviderTest : AppScheduler {
 //    override fun ui(): Scheduler {
-//        return AndroidSchedulers.mainThread()
+//        return Schedulers.trampoline()
 //    }
 //
 //    override fun io(): Scheduler {
-//        return Schedulers.io()
+//        return Schedulers.trampoline()
 //    }
-//
 //}

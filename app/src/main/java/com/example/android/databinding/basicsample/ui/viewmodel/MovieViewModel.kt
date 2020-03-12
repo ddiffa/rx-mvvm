@@ -21,5 +21,4 @@ class MovieViewModel(private val movieRepositoryImpl: MovieRepositoryImpl) : Vie
             movieListState.postValue(MovieViewState.LOADING_STATE)
         })
     }
-
 }

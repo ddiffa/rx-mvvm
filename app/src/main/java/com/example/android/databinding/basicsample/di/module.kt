@@ -12,10 +12,12 @@ import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieD
 import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieViewState
 import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowDetailViewState
 import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowViewState
-import com.example.android.databinding.basicsample.utils.SchedulersProvider
+import com.example.android.databinding.basicsample.utils.RxSingleSchedulers
+
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.experimental.property.inject
 
 val appModule = module {
 
@@ -27,7 +29,8 @@ val appModule = module {
     fragment { MovieFragment() }
     fragment { TVShowFragment() }
 
-    single { SchedulersProvider() }
+
+    single { RxSingleSchedulers.DEFAULT }
 
     factory { MovieRepositoryImpl(get()) }
     factory { TvShowRepositoryImpl(get()) }

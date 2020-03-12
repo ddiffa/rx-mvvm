@@ -6,19 +6,18 @@ import com.example.android.databinding.basicsample.data.remote.response.tvshow.d
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.source.TvShowRepository
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
-import com.example.android.databinding.basicsample.utils.SchedulersProvider
+import com.example.android.databinding.basicsample.utils.RxSingleSchedulers
 import java.util.concurrent.TimeUnit
 
 
 class TvShowRepositoryImpl(
-        private val schedulersProvider: SchedulersProvider) : TvShowRepository {
+        private val schedulersProvider: RxSingleSchedulers) : TvShowRepository {
     @SuppressLint("CheckResult")
     override fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
         EspressoIdlingResource.increment()
         MovieAPI.INSTANCE.getTvShows(apiKey)
-                .subscribeOn(schedulersProvider.io())
+                .compose(schedulersProvider.applySchedulers())
                 .delay(3, TimeUnit.SECONDS)
-                .observeOn(schedulersProvider.ui())
                 .doOnEach {
                     if (it.isOnNext) {
                         onLoading
@@ -34,9 +33,8 @@ class TvShowRepositoryImpl(
     override fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
         EspressoIdlingResource.increment()
         MovieAPI.INSTANCE.getTvShowDetail(id, apiKey)
-                .subscribeOn(schedulersProvider.io())
+                .compose(schedulersProvider.applySchedulers())
                 .delay(3, TimeUnit.SECONDS)
-                .observeOn(schedulersProvider.ui())
                 .doOnEach {
                     if (it.isOnNext) {
                         onLoading

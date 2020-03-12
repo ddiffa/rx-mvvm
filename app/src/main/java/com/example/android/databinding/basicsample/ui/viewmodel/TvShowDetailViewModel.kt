@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowDetailViewState
 
-class TvShowDetailViewModel(val tvShowRepositoryImpl: TvShowRepositoryImpl) : ViewModel() {
+class TvShowDetailViewModel(private val tvShowRepositoryImpl: TvShowRepositoryImpl) : ViewModel() {
 
     val tvDetailState = MutableLiveData<TvShowDetailViewState>()
 
