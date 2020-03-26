@@ -1,49 +1,81 @@
 package com.example.android.databinding.basicsample.data.source.impl
 
-import android.annotation.SuppressLint
-import com.example.android.databinding.basicsample.data.remote.MovieAPI
+import com.example.android.databinding.basicsample.data.local.LocalDataSource
+import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
+import com.example.android.databinding.basicsample.data.remote.TMDBapi
+import com.example.android.databinding.basicsample.data.remote.response.error.ApiDisposable
+import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import com.example.android.databinding.basicsample.data.source.TvShowRepository
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.RxSingleSchedulers
+import com.example.android.databinding.basicsample.utils.loggingError
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 
-class TvShowRepositoryImpl(
-        private val schedulersProvider: RxSingleSchedulers) : TvShowRepository {
-    @SuppressLint("CheckResult")
-    override fun getTvShow(apiKey: String, onSuccess: (TvShowResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
+class TvShowRepositoryImpl(private val remote: TMDBapi,
+                           private val local: LocalDataSource,
+                           private val schedulers: RxSingleSchedulers) : TvShowRepository {
+
+    override fun getTvShowData(apiKey: String, onSuccess: (List<TvShowEntity>) -> Unit, onError: (ApiError) -> Unit, onTerminate: () -> Unit, onLoading: () -> Unit): Disposable {
         EspressoIdlingResource.increment()
-        MovieAPI.INSTANCE.getTvShows(apiKey)
-                .compose(schedulersProvider.applySchedulers())
-                .delay(3, TimeUnit.SECONDS)
-                .doOnEach {
-                    if (it.isOnNext) {
-                        onLoading
-                    }
+        return Observable.concat(getTvShowDataFromDB(), getTvShowDataFromAPI(apiKey))
+                .observeOn(AndroidSchedulers.mainThread(), true)
+                .doOnTerminate(onTerminate)
+                .doOnNext {
+                    onLoading()
                 }
                 .doOnComplete {
                     EspressoIdlingResource.decrement()
                 }
-                .subscribe(onSuccess, onError)
+                .delay(2, TimeUnit.SECONDS)
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .retry()
+                .subscribeWith(
+                        ApiDisposable<List<TvShowEntity>>(
+                                {
+                                    onSuccess(it)
+                                }, {
+                            onError(it)
+                        }
+                        )
+                )
+
     }
 
-    @SuppressLint("CheckResult")
-    override fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
-        EspressoIdlingResource.increment()
-        MovieAPI.INSTANCE.getTvShowDetail(id, apiKey)
-                .compose(schedulersProvider.applySchedulers())
-                .delay(3, TimeUnit.SECONDS)
-                .doOnEach {
-                    if (it.isOnNext) {
-                        onLoading
+
+    private fun getTvShowDataFromAPI(apiKey: String): Observable<List<TvShowEntity>> =
+            remote.getTvShows(apiKey)
+                    .map { tvShowResponse ->
+                        Observable.create { _ : ObservableEmitter<Any?> ->
+                            local.saveTvShowData(tvShowResponse.results)
+                        }.subscribeOn(Schedulers.computation()).subscribe()
+                        tvShowResponse.results
                     }
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
-                }
-                .subscribe(onSuccess, onError)
+                    .subscribeOn(Schedulers.io())
+
+    private fun getTvShowDataFromDB(): Observable<List<TvShowEntity>> =
+            local.getAllTvShowData()
+                    .subscribeOn(Schedulers.computation())
+                    .doOnNext {
+                        loggingError(TvShowRepositoryImpl::class.java.simpleName, it.size.toString())
+                    }
+                    .filter {
+                        it.isNotEmpty()
+                    }
+
+
+    override fun favoriteTvShows(tvShow: TvShowDetailResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTvShowDetail(apiKey: String, id: String, onSuccess: (TvShowDetailResponse) -> Unit, onError: (Throwable) -> Unit, onLoading: () -> Unit) {
+
     }
 
 }

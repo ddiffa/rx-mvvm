@@ -1,8 +1,13 @@
-package com.example.android.databinding.basicsample.data.remote.response.tvshow.poular
+package com.example.android.databinding.basicsample.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.android.databinding.basicsample.utils.Converter
 import com.google.gson.annotations.SerializedName
 
-data class ResultsItem(
+@Entity(tableName = "tvshowdb")
+data class TvShowEntity(
 
         @field:SerializedName("first_air_date")
         val firstAirDate: String? = null,
@@ -14,13 +19,15 @@ data class ResultsItem(
         val originalLanguage: String? = null,
 
         @field:SerializedName("genre_ids")
-        val genreIds: List<Int?>? = null,
+        @TypeConverters(Converter::class)
+        val genreIds: List<String>,
 
         @field:SerializedName("poster_path")
         val posterPath: String? = null,
 
         @field:SerializedName("origin_country")
-        val originCountry: List<String?>? = null,
+        @TypeConverters(Converter::class)
+        val originCountry: List<String>,
 
         @field:SerializedName("backdrop_path")
         val backdropPath: String? = null,
@@ -37,9 +44,10 @@ data class ResultsItem(
         @field:SerializedName("name")
         val name: String? = null,
 
+        @PrimaryKey(autoGenerate = false)
         @field:SerializedName("id")
-        val id: Int? = null,
+        val id: Long? = null,
 
         @field:SerializedName("vote_count")
-        val voteCount: Int? = null
+        val voteCount: Long? = null
 )

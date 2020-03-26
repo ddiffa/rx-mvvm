@@ -1,23 +1,23 @@
 package com.example.android.databinding.basicsample.di
 
+import androidx.room.Room
+import com.example.android.databinding.basicsample.data.local.LocalDataSource
+import com.example.android.databinding.basicsample.data.local.TMDBdb
+import com.example.android.databinding.basicsample.data.remote.TMDBapi
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.ui.feature.detailmovie.DetailMovieInteract
+import com.example.android.databinding.basicsample.ui.feature.detailmovie.MovieDetailViewModel
+import com.example.android.databinding.basicsample.ui.feature.detailtvshow.TvShowDetailViewModel
 import com.example.android.databinding.basicsample.ui.feature.movie.MovieFragment
+import com.example.android.databinding.basicsample.ui.feature.movie.MovieViewModel
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TVShowFragment
-import com.example.android.databinding.basicsample.ui.viewmodel.MovieDetailViewModel
-import com.example.android.databinding.basicsample.ui.viewmodel.MovieViewModel
-import com.example.android.databinding.basicsample.ui.viewmodel.TvShowDetailViewModel
-import com.example.android.databinding.basicsample.ui.viewmodel.TvShowViewModel
-import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieDetailViewState
-import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.MovieViewState
-import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowDetailViewState
-import com.example.android.databinding.basicsample.ui.viewmodel.viewstate.TvShowViewState
+import com.example.android.databinding.basicsample.ui.feature.tvshow.TvShowViewModel
+import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.RxSingleSchedulers
-
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.experimental.property.inject
 
 val appModule = module {
 
@@ -32,12 +32,20 @@ val appModule = module {
 
     single { RxSingleSchedulers.DEFAULT }
 
-    factory { MovieRepositoryImpl(get()) }
-    factory { TvShowRepositoryImpl(get()) }
+    factory { MovieRepositoryImpl(get(), get(), get()) }
+    factory { TvShowRepositoryImpl(get(),get(),get()) }
 
-    factory { MovieDetailViewState(get(), get(), get()) }
-    factory { MovieViewState(get(), get(), get()) }
-    factory { TvShowViewState(get(), get(), get()) }
-    factory { TvShowDetailViewState(get(), get(), get()) }
+    factory { LocalDataSource(get()) }
+    factory { DetailMovieInteract(get()) }
 
+    single { ViewState }
+    single { TMDBapi.INSTANCE }
+
+    single {
+        Room.databaseBuilder(get(), TMDBdb::class.java, "tmdb_db").build()
+    }
+
+    single {
+        get<TMDBdb>().tmdbDao()
+    }
 }

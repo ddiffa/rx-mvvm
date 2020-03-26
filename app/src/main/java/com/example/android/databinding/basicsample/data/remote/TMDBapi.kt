@@ -1,10 +1,11 @@
 package com.example.android.databinding.basicsample.data.remote
 
-import com.example.android.databinding.basicsample.data.remote.response.movie.detail.MovieDetailResponse
+import com.example.android.databinding.basicsample.data.local.entity.MovieDetailResponse
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,7 +17,7 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
-enum class MovieAPI {
+enum class TMDBapi {
     INSTANCE;
 
     private var api: Api
@@ -26,12 +27,12 @@ enum class MovieAPI {
 
         val okhttp = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(6, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(makeLoggingInterceptor(true))
                 .build()
 
         api = Retrofit.Builder()
-                .baseUrl("http://api.themoviedb.org/3/")
+                .baseUrl("https://api.themoviedb.org/3/")
                 .client(okhttp)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -57,7 +58,7 @@ enum class MovieAPI {
         return api.getTvShowDetail(id, apiKey)
     }
 
-    fun getMovieDetail(id: String, apiKey: String): Observable<MovieDetailResponse> {
+    fun getMovieDetail(id: String, apiKey: String): Single<MovieDetailResponse> {
         return api.getMovieDetail(id, apiKey)
     }
 
@@ -73,7 +74,7 @@ enum class MovieAPI {
         fun getTvShowDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<TvShowDetailResponse>
 
         @GET("movie/{id}")
-        fun getMovieDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<MovieDetailResponse>
+        fun getMovieDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Single<MovieDetailResponse>
 
     }
 }

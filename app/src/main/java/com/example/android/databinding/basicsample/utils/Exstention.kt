@@ -1,6 +1,7 @@
 package com.example.android.databinding.basicsample.utils
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +26,10 @@ fun View.invisible() {
 
 fun View.hide() {
     visibility = View.GONE
+}
+
+fun loggingError(tag : String, msg : String){
+    Log.e(tag,msg)
 }
 
 @SuppressLint("SimpleDateFormat")

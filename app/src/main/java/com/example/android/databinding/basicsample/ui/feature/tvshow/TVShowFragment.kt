@@ -10,11 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
+import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
+import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.FragmentTvshowBinding
 import com.example.android.databinding.basicsample.ui.adapter.TvShowAdapter
-import com.example.android.databinding.basicsample.ui.viewmodel.TvShowViewModel
+import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.fragment_tvshow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,6 +27,7 @@ class TVShowFragment : Fragment() {
     private lateinit var binding: FragmentTvshowBinding
     private lateinit var adapter: TvShowAdapter
     private val viewModel by viewModel<TvShowViewModel>()
+    private val TAG = TVShowFragment::class.java.simpleName
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,8 +38,6 @@ class TVShowFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         adapter = TvShowAdapter()
         binding.adapter = adapter
         viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
@@ -46,32 +47,30 @@ class TVShowFragment : Fragment() {
     private fun observeDataChange() {
         viewModel.tvShowListState.observe(viewLifecycleOwner, Observer {
             when (it.currentState) {
-                0 -> {
+                ViewState.State.LOADING -> {
                     shimmerTvShow.visible()
                     rvTvShow.hide()
                 }
-                1 -> {
+                ViewState.State.SUCCESS -> {
                     shimmerTvShow.stopShimmerAnimation()
                     shimmerTvShow.hide()
                     rvTvShow.visible()
                     it.data?.let { tvShow -> observeTvShows(tvShow) }
                 }
-                -1 -> {
-                    observeError(it.error)
+                ViewState.State.FAILED -> {
+                    it.err?.let { err -> observeError(err) }
                 }
             }
         })
     }
 
-    private fun observeError(error: Throwable?) {
-        error?.let { Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show() }
+    private fun observeError(err: ApiError) {
+        loggingError(TAG, err.logMessage)
+        Toast.makeText(context, err.code.toString() + " "+ err.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun observeTvShows(tvShows: TvShowResponse) {
-        tvShows.results?.let {
-            adapter.setTvShows(it)
-            adapter.notifyDataSetChanged()
-        }
+    private fun observeTvShows(tvShows: List<TvShowEntity>) {
+        adapter.setTvShows(tvShows)
     }
 
 }

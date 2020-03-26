@@ -10,11 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
+import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
+import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.FragmentMovieBinding
 import com.example.android.databinding.basicsample.ui.adapter.MovieAdapter
-import com.example.android.databinding.basicsample.ui.viewmodel.MovieViewModel
+import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.fragment_movie.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +26,7 @@ class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel by viewModel<MovieViewModel>()
+    private val TAG = MovieFragment::class.java.simpleName
 
     private lateinit var adapter: MovieAdapter
 
@@ -45,30 +48,29 @@ class MovieFragment : Fragment() {
     private fun observeDataChange() {
         viewModel.movieListState.observe(viewLifecycleOwner, Observer {
             when (it.currentState) {
-                0 -> {
+                ViewState.State.LOADING -> {
                     shimmerMovie.visible()
                     rvMovie.hide()
                 }
-                1 -> {
+                ViewState.State.SUCCESS -> {
                     shimmerMovie.stopShimmerAnimation()
                     shimmerMovie.hide()
                     rvMovie.visible()
-                    it.data?.let { movies -> observeMovies(movies) }
+                    observeMovies(it.data)
                 }
-                -1 -> {
-                    observeError(it.error)
+                ViewState.State.FAILED -> {
+                    it.err?.let { err -> observeError(err) }
                 }
             }
         })
     }
 
-    private fun observeError(error: Throwable?) {
-        error?.let { Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show() }
+    private fun observeError(err: ApiError) {
+        loggingError(TAG, err.logMessage)
+        Toast.makeText(context, err.code.toString() + " "+ err.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun observeMovies(movies: MovieResponse?) {
-        movies?.results.let {
-            adapter.setMovies(it)
-        }
+    private fun observeMovies(movies: List<MovieEntity>?) {
+        adapter.setMovies(movies)
     }
 }

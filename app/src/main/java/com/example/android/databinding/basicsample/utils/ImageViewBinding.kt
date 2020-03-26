@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 fun loadImage(img: ImageView, imagePath: String?) {
     imagePath.let {
         Glide.with(img.context)
-                .load("http://image.tmdb.org/t/p/w500" + it)
+                .load("https://image.tmdb.org/t/p/w500" + it)
                 .into(img)
     }
 }

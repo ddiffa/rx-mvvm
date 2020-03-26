@@ -1,18 +1,31 @@
 package com.example.android.databinding.basicsample.data.remote.response.movie.detail
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class BelongsToCollection(
 
-	@field:SerializedName("backdrop_path")
-	val backdropPath: Any? = null,
+        @SerializedName("backdrop_path")
+        @ColumnInfo(name = "backdrop_belongs_to_collection")
+        var backdropPath: String? = null,
 
-	@field:SerializedName("name")
-	val name: String? = null,
+        @SerializedName("name")
+        @ColumnInfo(name = "name_belongs_to_collection")
+        var name: String? = null,
 
-	@field:SerializedName("id")
-	val id: Int? = null,
+        @ColumnInfo(name = "id_belongs_to_collection")
+        @SerializedName("id")
+        @PrimaryKey(autoGenerate = false)
+        var id: Long? = null,
 
-	@field:SerializedName("poster_path")
-	val posterPath: String? = null
-)
+        @SerializedName("poster_path")
+        @ColumnInfo(name = "poster_belongs_to_collection")
+        var posterPath: String? = null
+) {
+    @Ignore
+    constructor() : this("", "", 0, "")
+}
