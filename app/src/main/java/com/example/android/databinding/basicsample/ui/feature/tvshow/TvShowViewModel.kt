@@ -8,12 +8,12 @@ import com.example.android.databinding.basicsample.data.remote.response.error.Ap
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.viewstate.BaseViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
-import com.example.android.databinding.basicsample.utils.AppScheduler
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
+import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import java.util.concurrent.TimeUnit
 
 class TvShowViewModel(private val repository: TvShowRepositoryImpl,
-                      private val scheduler: AppScheduler) : BaseViewModel() {
+                      private var scheduler: SchedulerProviders) : BaseViewModel() {
 
     val tvShowListState = MutableLiveData<ViewState<List<TvShowEntity>>>()
 
@@ -21,8 +21,8 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
     fun getTvShow(apiKey: String) {
         EspressoIdlingResource.increment()
         repository.getTvShowData(apiKey)
-                .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .delay(2, TimeUnit.SECONDS)
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .doOnNext {

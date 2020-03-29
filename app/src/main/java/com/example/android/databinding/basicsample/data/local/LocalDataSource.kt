@@ -6,13 +6,13 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
-import com.example.android.databinding.basicsample.utils.AppScheduler
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import com.example.android.databinding.basicsample.utils.loggingError
 import io.reactivex.Observable
 
 class LocalDataSource(private val dao: TMDBDao,
-                      private val scheduler: AppScheduler) {
+                      private val scheduler: SchedulerProviders) {
+
 
     fun saveMovieData(movies: List<MovieEntity>) {
         for (movie in movies) {
@@ -37,6 +37,9 @@ class LocalDataSource(private val dao: TMDBDao,
     fun getAllMovieData(): Observable<List<MovieEntity>> =
             dao.getNowPlayingMovie()
                     .subscribeOn(scheduler.computation())
+                    .doOnError {
+                        loggingError(LocalDataSource::class.java.simpleName, it.localizedMessage)
+                    }
                     .doOnNext {
                         loggingError(LocalDataSource::class.java.simpleName, it.size.toString())
                     }

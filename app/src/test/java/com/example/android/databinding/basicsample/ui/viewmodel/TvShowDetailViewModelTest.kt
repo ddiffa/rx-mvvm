@@ -1,95 +1,96 @@
-//package com.example.android.databinding.basicsample.ui.viewmodel
-//
-//import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-//import androidx.lifecycle.Lifecycle
-//import androidx.lifecycle.LifecycleOwner
-//import androidx.lifecycle.LifecycleRegistry
-//import androidx.lifecycle.Observer
-//import com.example.android.databinding.basicsample.data.remote.MovieAPI
-//import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailResponse
-//import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
-//import com.example.android.databinding.basicsample.ui.feature.detailtvshow.TvShowDetailViewModel
-//import com.example.android.databinding.basicsample.utils.RxSingleSchedulers
-//import io.reactivex.Observable
-//import org.junit.After
-//import org.junit.Assert.assertNotNull
-//import org.junit.Assert.assertTrue
-//import org.junit.Before
-//import org.junit.Rule
-//import org.junit.Test
-//import org.junit.runner.RunWith
-//import org.junit.runners.JUnit4
-//import org.mockito.Mock
-//import org.mockito.Mockito.*
-//import org.mockito.MockitoAnnotations
-//import java.io.BufferedReader
-//import java.io.InputStreamReader
-//import java.net.URL
-//import java.nio.charset.Charset
-//
-//@RunWith(JUnit4::class)
-//class TvShowDetailViewModelTest {
-//    @get:Rule
-//    var instantTaskExecutorRule = InstantTaskExecutorRule()
-//
-//    @Mock
-//    private lateinit var api: MovieAPI
-//
-//    @Mock
-//    private lateinit var observer: Observer<TvShowDetailViewState>
-//
-//    @Mock
-//    private lateinit var repository: TvShowRepositoryImpl
-//
-//    @Mock
-//    private lateinit var lifecycleOwner: LifecycleOwner
-//    private lateinit var lifeCycle: Lifecycle
-//
-//    private lateinit var viewModel: TvShowDetailViewModel
-//
-//    @Before
-//    @Throws(Exception::class)
-//    fun setup() {
-//        MockitoAnnotations.initMocks(this)
-//        lifeCycle = LifecycleRegistry(lifecycleOwner)
-//        repository = TvShowRepositoryImpl(RxSingleSchedulers.TEST_SCHEDULER)
-//        viewModel = TvShowDetailViewModel(repository)
-//        viewModel.tvDetailState.observeForever(observer)
-//    }
-//
-//    @Test
-//    fun testNotNull() {
-//        `when`(api.getTvShowDetail("256", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(TvShowDetailResponse()))
-//        assertNotNull(viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "256"))
-//        assertTrue(viewModel.tvDetailState.hasObservers())
-//    }
-//
-//    @Test
-//    @Throws(java.lang.Exception::class)
-//    fun testTvAPIAvailability() {
-//        val connection = URL("http://api.themoviedb.org/3/tv/4553?api_key=ac313fc1138a0ed697567a0dedddc6cd").openConnection()
-//        val response = connection.getInputStream()
-//        val buffer = StringBuffer()
-//        BufferedReader(InputStreamReader(response, Charset.defaultCharset())).use { reader ->
-//            var line: String?
-//            while (reader.readLine().also { line = it } != null) {
-//                buffer.append(line)
-//            }
-//        }
-//        assert(buffer.isNotEmpty())
-//    }
-//
-//    @Test
-//    fun testApiFetchDataSuccess() {
-//        `when`(api.getTvShowDetail("4553", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(TvShowDetailResponse()))
-//        viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "4553")
-//        viewModel.tvDetailState.observeForever {
-//            verify(observer).onChanged(it)
-//        }
-//    }
-//
-//    @After
-//    fun tearDown() {
-//        validateMockitoUsage()
-//    }
-//}
+package com.example.android.databinding.basicsample.ui.viewmodel
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.example.android.databinding.basicsample.data.local.LocalDataSource
+import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
+import com.example.android.databinding.basicsample.data.remote.RemoteDataSource
+import com.example.android.databinding.basicsample.data.remote.TMDBapi
+import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTvShowViewModel
+import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.utils.LocalData
+import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import io.reactivex.Observable
+import org.junit.Assert
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.nio.charset.Charset
+
+@RunWith(JUnit4::class)
+class TvShowDetailViewModelTest {
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    private var remote: RemoteDataSource = mock(RemoteDataSource::class.java)
+
+
+    private var local: LocalDataSource = mock(LocalDataSource::class.java)
+
+    private var api: TMDBapi = mock(TMDBapi::class.java)
+
+    @Mock
+    private lateinit var observer: Observer<ViewState<TvShowDetailEntity>>
+
+    @Mock
+    private lateinit var repository: TvShowRepositoryImpl
+
+    private lateinit var viewModel: DetailTvShowViewModel
+
+    @Before
+    @Throws(Exception::class)
+    fun setup() {
+        MockitoAnnotations.initMocks(this)
+        repository = TvShowRepositoryImpl(remote, local)
+        viewModel = DetailTvShowViewModel(repository, SchedulerProviders.TEST_SCHEDULER)
+        viewModel.tvDetailState.observeForever(observer)
+    }
+
+    @Test
+    fun testNotNull() {
+        `when`(api.getTvShowDetail("256", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShowDetail))
+        assertNotNull(viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "256"))
+        assertTrue(viewModel.tvDetailState.hasObservers())
+    }
+
+    @Test
+    @Throws(java.lang.Exception::class)
+    fun testTvAPIAvailability() {
+        val connection = URL("http://api.themoviedb.org/3/tv/4553?api_key=ac313fc1138a0ed697567a0dedddc6cd").openConnection()
+        val response = connection.getInputStream()
+        val buffer = StringBuffer()
+        BufferedReader(InputStreamReader(response, Charset.defaultCharset())).use { reader ->
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                buffer.append(line)
+            }
+        }
+        assert(buffer.isNotEmpty())
+    }
+
+    @Test
+    fun testApiFetchDataSuccess() {
+        `when`(api.getTvShowDetail("4553", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShowDetail))
+        viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "4553")
+        verify(observer, times(1)).onChanged(ArgumentMatchers.any())
+    }
+
+    @Test
+    fun testLocalData() {
+        val tvShow = LocalData.tvShowDetail
+        assertNotNull(tvShow)
+        Assert.assertEquals("Bill the Minder", tvShow.name)
+    }
+}

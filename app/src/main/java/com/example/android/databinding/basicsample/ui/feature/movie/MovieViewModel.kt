@@ -8,22 +8,23 @@ import com.example.android.databinding.basicsample.data.remote.response.error.Ap
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.ui.viewstate.BaseViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
-import com.example.android.databinding.basicsample.utils.AppScheduler
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
+import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import java.util.concurrent.TimeUnit
 
 
 class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
-                     private val scheduler: AppScheduler) : BaseViewModel() {
+                     private var scheduler: SchedulerProviders) : BaseViewModel() {
 
     val movieListState = MutableLiveData<ViewState<List<MovieEntity>>>()
+
 
     @SuppressLint("CheckResult")
     fun getMovies(apiKey: String) {
         EspressoIdlingResource.increment()
         repositoryImpl.getMovieData(apiKey)
-                .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .delay(2, TimeUnit.SECONDS)
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .doOnNext {

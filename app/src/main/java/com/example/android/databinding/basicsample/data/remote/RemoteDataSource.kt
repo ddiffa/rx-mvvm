@@ -5,13 +5,13 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieDetail
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.utils.AppScheduler
+import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 
 class RemoteDataSource(private val api: TMDBapi,
                        private val local: LocalDataSource,
-                       private val scheduler: AppScheduler) {
+                       private val scheduler: SchedulerProviders) {
 
     fun getMovieDataFromApi(apiKey: String): Observable<List<MovieEntity>> =
             api.getMovies(apiKey)
@@ -31,7 +31,8 @@ class RemoteDataSource(private val api: TMDBapi,
                             local.saveMovieDetail(movieDetailResponse)
                         }.subscribeOn(scheduler.computation()).subscribe()
                         movieDetailResponse
-                    }.subscribeOn(scheduler.io())
+                    }
+                    .subscribeOn(scheduler.io())
 
     fun getTvShowDataFromAPI(apiKey: String): Observable<List<TvShowEntity>> =
             api.getTvShows(apiKey)

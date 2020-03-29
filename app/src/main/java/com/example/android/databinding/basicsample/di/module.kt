@@ -14,8 +14,7 @@ import com.example.android.databinding.basicsample.ui.feature.movie.MovieViewMod
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TVShowFragment
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TvShowViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
-import com.example.android.databinding.basicsample.utils.AppScheduler
-import com.example.android.databinding.basicsample.utils.SchedulerProvidersTest
+import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -31,8 +30,7 @@ val appModule = module {
     fragment { TVShowFragment() }
 
 
-    single { AppScheduler() }
-    single { SchedulerProvidersTest() }
+    single { SchedulerProviders.DEFAULT}
 
     factory { MovieRepositoryImpl(get(), get()) }
     factory { TvShowRepositoryImpl(get(), get()) }
