@@ -2,22 +2,16 @@ package com.example.android.databinding.basicsample.data.remote.response.movie.d
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity
 data class GenresItem(
 
-        @ColumnInfo(name = "name_genres_item")
+        @ColumnInfo(name = "name_genre")
         @SerializedName("name")
-		var name: String? = null,
+        var name: String? = "",
 
-        @ColumnInfo(name = "id_genres_item")
+        @ColumnInfo(name = "id_genre")
         @SerializedName("id")
-		@PrimaryKey(autoGenerate = false)
-		var id: Long? = null
-){
-	@Ignore
-	constructor(): this("",0)
-}
+        var id: Long? = 0
+)

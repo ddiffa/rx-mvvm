@@ -6,7 +6,7 @@
 
         <variable
             name="tvShows"
-            type="com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.ResultsItem" />
+            type="com.example.android.databinding.basicsample.data.local.entity.TvShowEntity" />
 
         <variable
             name="sdf"
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="tvItemDetailTv"
                         android:fontFamily="@font/mm"
-                        android:onClick="@{()->handler.onTvShowDetailsClick(Integer.toString(tvShows.id))}"
+                        android:onClick="@{()->handler.onTvShowDetailsClick(Long.toString(tvShows.id))}"
                         android:text="Details"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"

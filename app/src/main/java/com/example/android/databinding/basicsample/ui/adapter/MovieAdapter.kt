@@ -5,25 +5,21 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem
+import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.databinding.ItemMoviesBinding
 import com.example.android.databinding.basicsample.ui.handler.EventHandler
 import com.example.android.databinding.basicsample.utils.getSimpleDate
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
-    private val list = ArrayList<ResultsItem?>()
+    private val list = ArrayList<MovieEntity?>()
 
-    fun setMovies(list: List<ResultsItem?>?) {
+    fun setMovies(list: List<MovieEntity?>?) {
         if (this.list.isNotEmpty()) {
             this.list.clear()
         }
         list?.let { this.list.addAll(it) }
         notifyDataSetChanged()
-    }
-
-    fun getMovieList(): ArrayList<ResultsItem?> {
-        return list
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +39,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     }
 
     class ViewHolder(var dataBinding: ItemMoviesBinding) : RecyclerView.ViewHolder(dataBinding.root) {
-        fun bind(movies: ResultsItem) {
+        fun bind(movies: MovieEntity) {
             dataBinding.movie = movies
             dataBinding.image = movies.posterPath
             dataBinding.handler = EventHandler(dataBinding.root.context)

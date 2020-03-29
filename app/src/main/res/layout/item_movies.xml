@@ -8,7 +8,7 @@
 
         <variable
             name="movie"
-            type="com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.ResultsItem" />
+            type="com.example.android.databinding.basicsample.data.local.entity.MovieEntity" />
 
         <variable
             name="sdf"
@@ -98,7 +98,7 @@
                         android:layout_toRightOf="@+id/tvOverview"
                         android:contentDescription="tvItemDetailMovie"
                         android:fontFamily="@font/mm"
-                        android:onClick="@{()->handler.onMovieDetailsClick(Integer.toString(movie.id))}"
+                        android:onClick="@{()->handler.onMovieDetailsClick(Long.toString(movie.id))}"
                         android:text="Details"
                         android:textColor="@color/colorPrimary"
                         android:textSize="11sp"

@@ -30,7 +30,7 @@
 
         <variable
             name="moviesDetail"
-            type="com.example.android.databinding.basicsample.data.remote.response.movie.detail.MovieDetailResponse" />
+            type="com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity" />
     </data>
 
     <LinearLayout
@@ -138,7 +138,7 @@
                         android:paddingRight="8dp"
                         android:text="@{moviesDetail.title, default = IT}"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView

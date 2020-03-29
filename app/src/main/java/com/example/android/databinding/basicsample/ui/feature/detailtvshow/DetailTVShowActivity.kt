@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
+import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
+import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.ActivityDetailTvshowBinding
-import com.example.android.databinding.basicsample.ui.viewmodel.TvShowDetailViewModel
+import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.hide
+import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible
 import kotlinx.android.synthetic.main.activity_detail_movie.imgBack
 import kotlinx.android.synthetic.main.activity_detail_tvshow.*
@@ -20,7 +22,7 @@ class DetailTVShowActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailTvshowBinding
 
-    private val viewModel by viewModel<TvShowDetailViewModel>()
+    private val viewModel by viewModel<DetailTvShowViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_tvshow)
@@ -32,34 +34,34 @@ class DetailTVShowActivity : AppCompatActivity() {
     private fun observeDataChange() {
         viewModel.tvDetailState.observe(this, Observer {
             when (it.currentState) {
-                0 -> {
+                ViewState.State.LOADING -> {
                     layoutDataDetailTvShow.hide()
                     shimmerTvShowDetail.visible()
                 }
-                1 -> {
+                ViewState.State.SUCCESS -> {
                     shimmerTvShowDetail.stopShimmerAnimation()
                     shimmerTvShowDetail.hide()
                     layoutDataDetailTvShow.visible()
                     it.data?.let { tvShowDetail -> observeTvShowDetail(tvShowDetail) }
                 }
-                -1 -> {
-                    observeError(it.error)
+                ViewState.State.FAILED -> {
+                    it.err?.let { err -> observeError(err) }
                 }
             }
         })
     }
 
-    private fun observeError(error: Throwable?) {
-        error?.let { Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show() }
+    private fun observeError(err: ApiError) {
+        loggingError(DetailTVShowActivity::class.java.simpleName, err.logMessage)
+        Toast.makeText(applicationContext, err.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun observeTvShowDetail(tvShow: TvShowDetailResponse) {
+    private fun observeTvShowDetail(tvShow: TvShowDetailEntity?) {
         var genres: String = ""
-        if (tvShow.genres != null) {
-            for (genre in tvShow.genres) {
-                genres += genre?.name.toString() + ", "
-            }
+        for (genre in tvShow?.genres!!) {
+            genres += genre?.name.toString() + ", "
         }
+
         binding.tvDetail = tvShow
         binding.imageBackdropTV = tvShow.backdropPath
         binding.tvGenres = genres

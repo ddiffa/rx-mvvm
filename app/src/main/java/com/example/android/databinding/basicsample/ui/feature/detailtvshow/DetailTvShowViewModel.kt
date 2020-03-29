@@ -1,8 +1,7 @@
-package com.example.android.databinding.basicsample.ui.feature.tvshow
+package com.example.android.databinding.basicsample.ui.feature.detailtvshow
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
+import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.remote.response.error.ApiDisposable
 import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
@@ -12,15 +11,14 @@ import com.example.android.databinding.basicsample.utils.AppScheduler
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import java.util.concurrent.TimeUnit
 
-class TvShowViewModel(private val repository: TvShowRepositoryImpl,
-                      private val scheduler: AppScheduler) : BaseViewModel() {
+class DetailTvShowViewModel(private val repository: TvShowRepositoryImpl,
+                            private val scheduler: AppScheduler) : BaseViewModel() {
 
-    val tvShowListState = MutableLiveData<ViewState<List<TvShowEntity>>>()
+    val tvDetailState = MutableLiveData<ViewState<TvShowDetailEntity>>()
 
-    @SuppressLint("CheckResult")
-    fun getTvShow(apiKey: String) {
+    fun getTvShowDetail(apiKey: String, id: String) {
         EspressoIdlingResource.increment()
-        repository.getTvShowData(apiKey)
+        repository.getTvShowDetail(apiKey, id)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
                 .delay(2, TimeUnit.SECONDS)
@@ -32,26 +30,23 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
                     EspressoIdlingResource.decrement()
                 }
                 .subscribeWith(
-                        ApiDisposable<List<TvShowEntity>>(
-                                {
-                                    onSuccess(it)
-                                }, {
+                        ApiDisposable<TvShowDetailEntity>({
+                            onSuccess(it)
+                        }, {
                             onError(it)
-                        }
-                        )
-                )
+                        })
+                ).also { compositeDisposable.add(it) }
     }
 
     private fun onLoading() {
-        tvShowListState.postValue(ViewState.loading())
-    }
-
-    private fun onSuccess(tvShows: List<TvShowEntity>) {
-        tvShowListState.postValue(ViewState.success(tvShows))
+        tvDetailState.postValue(ViewState.loading())
     }
 
     private fun onError(err: ApiError) {
-        tvShowListState.postValue(ViewState.error(err))
+        tvDetailState.postValue(ViewState.error(err))
     }
 
+    private fun onSuccess(tvShowDetail: TvShowDetailEntity) {
+        tvDetailState.postValue(ViewState.success(tvShowDetail))
+    }
 }

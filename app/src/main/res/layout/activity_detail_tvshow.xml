@@ -24,7 +24,7 @@
 
         <variable
             name="tvDetail"
-            type="com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse" />
+            type="com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity" />
     </data>
 
     <LinearLayout
@@ -128,7 +128,7 @@
                         android:paddingRight="8dp"
                         android:text="@{tvDetail.name, default = IT}"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView

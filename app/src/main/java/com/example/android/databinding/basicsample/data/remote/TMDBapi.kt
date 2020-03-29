@@ -1,11 +1,10 @@
 package com.example.android.databinding.basicsample.data.remote
 
-import com.example.android.databinding.basicsample.data.local.entity.MovieDetailResponse
+import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.remote.response.movie.nowplaying.MovieResponse
-import com.example.android.databinding.basicsample.data.remote.response.tvshow.detail.TvShowDetailResponse
+import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.remote.response.tvshow.poular.TvShowResponse
 import io.reactivex.Observable
-import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -54,11 +53,11 @@ enum class TMDBapi {
         return api.getTvShows(apiKey)
     }
 
-    fun getTvShowDetail(id: String, apiKey: String): Observable<TvShowDetailResponse> {
+    fun getTvShowDetail(id: String, apiKey: String): Observable<TvShowDetailEntity> {
         return api.getTvShowDetail(id, apiKey)
     }
 
-    fun getMovieDetail(id: String, apiKey: String): Single<MovieDetailResponse> {
+    fun getMovieDetail(id: String, apiKey: String): Observable<MovieDetailEntity> {
         return api.getMovieDetail(id, apiKey)
     }
 
@@ -71,10 +70,10 @@ enum class TMDBapi {
         fun getTvShows(@Query("api_key") apiKey: String): Observable<TvShowResponse>
 
         @GET("tv/{id}")
-        fun getTvShowDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<TvShowDetailResponse>
+        fun getTvShowDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<TvShowDetailEntity>
 
         @GET("movie/{id}")
-        fun getMovieDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Single<MovieDetailResponse>
+        fun getMovieDetail(@Path("id") id: String, @Query("api_key") apiKey: String): Observable<MovieDetailEntity>
 
     }
 }
