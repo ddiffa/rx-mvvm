@@ -10,5 +10,7 @@ interface TvShowRepository {
 
     fun favoriteTvShows(tvShow: TvShowDetailEntity)
 
-    fun getTvShowDetail(apiKey: String, id: String) : Observable<TvShowDetailEntity>
+    fun getTvShowDetail(apiKey: String, id: String): Observable<TvShowDetailEntity>
+
+    fun updateTvShowDetail(isFavorite: Boolean, tvShow: TvShowDetailEntity)
 }

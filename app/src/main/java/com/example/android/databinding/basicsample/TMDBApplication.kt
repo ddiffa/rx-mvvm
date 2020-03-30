@@ -5,13 +5,13 @@ import com.example.android.databinding.basicsample.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class BaseApplication : Application() {
+class TMDBApplication : Application() {
 
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@BaseApplication)
+            androidContext(this@TMDBApplication)
             modules(appModule)
         }
     }

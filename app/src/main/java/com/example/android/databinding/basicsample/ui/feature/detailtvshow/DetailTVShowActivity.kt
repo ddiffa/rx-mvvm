@@ -13,6 +13,7 @@ import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible
+import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.activity_detail_movie.imgBack
 import kotlinx.android.synthetic.main.activity_detail_tvshow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,11 +62,25 @@ class DetailTVShowActivity : AppCompatActivity() {
         for (genre in tvShow?.genres!!) {
             genres += genre?.name.toString() + ", "
         }
-
+        if (tvShow.isFavorite!!) {
+            fbFavoriteTvShow.setImageResource(R.drawable.heart)
+        } else {
+            fbFavoriteTvShow.setImageResource(R.drawable.heart_gray)
+        }
         binding.tvDetail = tvShow
         binding.imageBackdropTV = tvShow.backdropPath
         binding.tvGenres = genres
         binding.imageCirclePosterTV = tvShow.posterPath
         binding.rating = tvShow.voteAverage?.div(2)
+        binding.handler = this
+    }
+
+    fun onFavoriteClick(isFavorite: Boolean, tvShow: TvShowDetailEntity) {
+        viewModel.updateTvShowDetail(isFavorite, tvShow)
+        if (isFavorite) {
+            Toast.makeText(applicationContext, "Tv Show has been deteled from favorite", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(applicationContext, "Tv Show has been added to favorite", Toast.LENGTH_SHORT).show()
+        }
     }
 }

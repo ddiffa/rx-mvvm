@@ -29,6 +29,10 @@
             type="String" />
 
         <variable
+            name="handler"
+            type="com.example.android.databinding.basicsample.ui.feature.detailmovie.DetailMovieActivity" />
+
+        <variable
             name="moviesDetail"
             type="com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity" />
     </data>
@@ -117,8 +121,22 @@
                                 android:scaleType="centerCrop"
                                 android:src="@color/colorAccent" />
                         </androidx.cardview.widget.CardView>
+
                     </FrameLayout>
 
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fbFavoriteMovie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="16dp"
+                        android:backgroundTint="#fff"
+                        android:src="@drawable/heart_gray"
+                        app:borderWidth="0dp"
+                        app:fabSize="normal"
+                        android:onClick="@{()->handler.onFavoriteClick(moviesDetail.isFavorite(),moviesDetail)}"
+                        tools:ignore="RelativeOverlap" />
                 </RelativeLayout>
 
                 <RelativeLayout

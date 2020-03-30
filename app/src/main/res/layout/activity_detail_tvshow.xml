@@ -23,6 +23,10 @@
             type="Float" />
 
         <variable
+            name="handler"
+            type="com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTVShowActivity" />
+
+        <variable
             name="tvDetail"
             type="com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity" />
     </data>
@@ -107,6 +111,20 @@
                                 app:image="@{imageCirclePosterTV}" />
                         </androidx.cardview.widget.CardView>
                     </FrameLayout>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fbFavoriteTvShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="16dp"
+                        android:backgroundTint="#fff"
+                        android:src="@drawable/heart_gray"
+                        app:borderWidth="0dp"
+                        android:onClick="@{()->handler.onFavoriteClick(tvDetail.isFavorite(),tvDetail)}"
+                        app:fabSize="normal"
+                        tools:ignore="RelativeOverlap" />
 
                 </RelativeLayout>
 

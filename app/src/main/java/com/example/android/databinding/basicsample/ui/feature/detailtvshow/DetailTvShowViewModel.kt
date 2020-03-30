@@ -38,6 +38,10 @@ class DetailTvShowViewModel(private val repository: TvShowRepositoryImpl,
                 ).also { compositeDisposable.add(it) }
     }
 
+    fun updateTvShowDetail(isFavorite: Boolean, tvShowDetail: TvShowDetailEntity) {
+        repository.updateTvShowDetail(isFavorite, tvShowDetail)
+    }
+
     private fun onLoading() {
         tvDetailState.postValue(ViewState.loading())
     }

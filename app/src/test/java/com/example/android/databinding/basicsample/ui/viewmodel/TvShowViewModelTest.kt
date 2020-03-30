@@ -2,9 +2,9 @@ package com.example.android.databinding.basicsample.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.databinding.basicsample.data.local.LocalDataSource
+import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.data.remote.RemoteDataSource
+import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
 import com.example.android.databinding.basicsample.data.remote.TMDBapi
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TvShowViewModel
@@ -32,10 +32,10 @@ class TvShowViewModelTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
-    private var remote: RemoteDataSource = Mockito.mock(RemoteDataSource::class.java)
+    private var remoteImpl: RemoteDataSourceImpl = Mockito.mock(RemoteDataSourceImpl::class.java)
 
 
-    private var local: LocalDataSource = Mockito.mock(LocalDataSource::class.java)
+    private var localImpl: LocalDataSourceImpl = Mockito.mock(LocalDataSourceImpl::class.java)
 
 
     private var api: TMDBapi = Mockito.mock(TMDBapi::class.java)
@@ -53,7 +53,7 @@ class TvShowViewModelTest {
     @Throws(Exception::class)
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        repository = TvShowRepositoryImpl(remote, local)
+        repository = TvShowRepositoryImpl(remoteImpl, localImpl)
         viewModel = TvShowViewModel(repository, SchedulerProviders.TEST_SCHEDULER)
         viewModel.tvShowListState.observeForever(observer)
     }

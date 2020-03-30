@@ -59,11 +59,26 @@ class DetailMovieActivity : AppCompatActivity() {
         for (genre in movies?.genres!!) {
             genres += genre?.name.toString() + ", "
         }
+        if (movies.isFavorite!!) {
+            fbFavoriteMovie.setImageResource(R.drawable.heart)
+        } else {
+            fbFavoriteMovie.setImageResource(R.drawable.heart_gray)
+        }
         binding.moviesDetail = movies
         binding.imageBackdropMovie = movies.backdropPath
         binding.imagePosterMovie = movies.posterPath
         binding.tvRuntime = convertRuntime(movies.runtime.toString())
         binding.tvGenres = genres
         binding.ratingMovie = movies.voteAverage?.div(2)
+        binding.handler = this
+    }
+
+    fun onFavoriteClick(isFavorite: Boolean, movie: MovieDetailEntity) {
+        viewModel.updateMovieDetail(isFavorite, movie)
+        if (isFavorite) {
+            Toast.makeText(applicationContext, "Movie has been deteled from favorite", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(applicationContext, "Movie has been added to favorite", Toast.LENGTH_SHORT).show()
+        }
     }
 }

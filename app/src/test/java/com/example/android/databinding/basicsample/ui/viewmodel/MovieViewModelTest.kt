@@ -1,13 +1,10 @@
 package com.example.android.databinding.basicsample.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import com.example.android.databinding.basicsample.data.local.LocalDataSource
+import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
-import com.example.android.databinding.basicsample.data.remote.RemoteDataSource
+import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
 import com.example.android.databinding.basicsample.data.remote.TMDBapi
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.ui.feature.movie.MovieViewModel
@@ -15,7 +12,6 @@ import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.LocalData
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
-import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -38,10 +34,10 @@ class MovieViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
 
-    private var remote: RemoteDataSource = mock(RemoteDataSource::class.java)
+    private var remoteImpl: RemoteDataSourceImpl = mock(RemoteDataSourceImpl::class.java)
 
 
-    private var local: LocalDataSource = mock(LocalDataSource::class.java)
+    private var localImpl: LocalDataSourceImpl = mock(LocalDataSourceImpl::class.java)
 
 
     private var api: TMDBapi = mock(TMDBapi::class.java)
@@ -57,7 +53,7 @@ class MovieViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        repository = MovieRepositoryImpl(remote, local)
+        repository = MovieRepositoryImpl(remoteImpl, localImpl)
         viewModel = MovieViewModel(repository, SchedulerProviders.TEST_SCHEDULER)
         viewModel.movieListState.observeForever(observer)
     }

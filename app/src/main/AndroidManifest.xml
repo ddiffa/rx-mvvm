@@ -7,7 +7,7 @@
 
 
     <application
-        android:name=".BaseApplication"
+        android:name=".TMDBApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"

@@ -119,5 +119,5 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.2.5"
     implementation "android.arch.persistence.room:rxjava2:1.1.1"
 
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.8'
+    implementation 'androidx.paging:paging-runtime:2.1.2'
 }

@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.data.local
+package com.example.android.databinding.basicsample.data.local.source
 
 import com.example.android.databinding.basicsample.data.local.dao.TMDBDao
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
@@ -10,45 +10,46 @@ import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import com.example.android.databinding.basicsample.utils.loggingError
 import io.reactivex.Observable
 
-class LocalDataSource(private val dao: TMDBDao,
-                      private val scheduler: SchedulerProviders) {
+class LocalDataSourceImpl(private val dao: TMDBDao,
+                          private val scheduler: SchedulerProviders) : LocalDataSource {
 
 
-    fun saveMovieData(movies: List<MovieEntity>) {
+    override fun saveMovieData(movies: List<MovieEntity>) {
         for (movie in movies) {
             dao.insertMovie(movie)
         }
     }
 
-    fun saveTvShowData(tvShows: List<TvShowEntity>) {
+    override fun saveTvShowData(tvShows: List<TvShowEntity>) {
         for (tvShow in tvShows) {
             dao.insertTvShow(tvShow)
         }
     }
 
-    fun saveMovieDetail(movieDetailEntity: MovieDetailEntity) {
+    override fun saveMovieDetail(movieDetailEntity: MovieDetailEntity) {
+        movieDetailEntity.isFavorite = false
         dao.insertMovieDetail(movieDetailEntity)
     }
 
-    fun saveTvShowDetail(tvShowDetailEntity: TvShowDetailEntity) {
+    override fun saveTvShowDetail(tvShowDetailEntity: TvShowDetailEntity) {
+        tvShowDetailEntity.isFavorite = false
         dao.insertTvShowDetail(tvShowDetailEntity)
     }
 
-    fun getAllMovieData(): Observable<List<MovieEntity>> =
+    override fun getAllMovieData(): Observable<List<MovieEntity>> =
             dao.getNowPlayingMovie()
                     .subscribeOn(scheduler.computation())
                     .doOnError {
-                        loggingError(LocalDataSource::class.java.simpleName, it.localizedMessage)
+                        loggingError(LocalDataSourceImpl::class.java.simpleName, it.localizedMessage)
                     }
                     .doOnNext {
-                        loggingError(LocalDataSource::class.java.simpleName, it.size.toString())
+                        loggingError(LocalDataSourceImpl::class.java.simpleName, it.size.toString())
                     }
                     .filter {
                         it.isNotEmpty()
                     }
 
-
-    fun getTvShowData(): Observable<List<TvShowEntity>> =
+    override fun getTvShowData(): Observable<List<TvShowEntity>> =
             dao.getAllTvShowData()
                     .subscribeOn(scheduler.computation())
                     .doOnNext {
@@ -59,20 +60,31 @@ class LocalDataSource(private val dao: TMDBDao,
                     }
 
 
-    fun getMovieDetail(id: String): Observable<MovieDetailEntity> =
+    override fun getMovieDetail(id: String): Observable<MovieDetailEntity> =
             dao.getMovieDetail(id)
                     .subscribeOn(scheduler.computation())
                     .filter { true }
                     .doOnNext {
-                        it.title?.let { title -> loggingError(LocalDataSource::class.java.simpleName, title) }
+                        it.isFavorite?.let { title -> loggingError(LocalDataSourceImpl::class.java.simpleName, title.toString()) }
                     }
 
 
-    fun getTvShowDetail(id: String): Observable<TvShowDetailEntity> =
+    override fun getTvShowDetail(id: String): Observable<TvShowDetailEntity> =
             dao.getTvShowDetail(id)
                     .subscribeOn(scheduler.computation())
                     .filter { true }
                     .doOnNext {
-                        it.name?.let { title -> loggingError(LocalDataSource::class.java.simpleName, title) }
+                        it.name?.let { title -> loggingError(LocalDataSourceImpl::class.java.simpleName, title) }
                     }
+
+    override fun updateMovieDetail(isFavorite: Boolean, movie: MovieDetailEntity) {
+        movie.isFavorite = isFavorite
+        dao.updateMovieDetail(movie)
+    }
+
+    override fun updateTvShowDetail(isFavorite: Boolean,tvShow: TvShowDetailEntity) {
+        tvShow.isFavorite = isFavorite
+        dao.updateTvShowDetail(tvShow)
+        loggingError(LocalDataSource::class.java.simpleName, "${tvShow.name} ${tvShow.isFavorite}")
+    }
 }

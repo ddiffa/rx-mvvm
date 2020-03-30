@@ -14,4 +14,5 @@ interface MovieRepository {
 
     fun getMovieDataDetail(apiKey: String, id: String): Observable<MovieDetailEntity>
 
+    fun updateMovieDetail(isFavorite : Boolean,movie : MovieDetailEntity)
 }

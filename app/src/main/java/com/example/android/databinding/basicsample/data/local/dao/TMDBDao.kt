@@ -1,14 +1,12 @@
 package com.example.android.databinding.basicsample.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
 import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface TMDBDao {
@@ -25,7 +23,7 @@ interface TMDBDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTvShow(vararg tvShows: TvShowEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMovieDetail(vararg movieDetailEntity: MovieDetailEntity)
 
     @Query("SELECT * FROM moviedetail_db where id = :id")
@@ -34,8 +32,18 @@ interface TMDBDao {
     @Query("SELECt * FROM tvshowdetail_db where id = :id")
     fun getTvShowDetail(id: String): Observable<TvShowDetailEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTvShowDetail(vararg tvShowDetailEntity: TvShowDetailEntity)
 
+    @Update
+    fun updateMovieDetail(movie: MovieDetailEntity)
 
+    @Update
+    fun updateTvShowDetail(tvShow: TvShowDetailEntity)
+//
+//    @Query("SELECT * FROM moviedetail_db where isFavorite = :isFavorite")
+//    fun getAllMovieFavorite(isFavorite: Boolean): DataSource.Factory<Int, Observable<List<MovieDetailEntity>>>
+//
+//    @Query("SELECT * FROM tvshowdetail_db where isFavorite = :isFavorite")
+//    fun getAllTvShowFavorite(isFavorite: Boolean): DataSource.Factory<Int, Observable<List<TvShowDetailEntity>>>
 }

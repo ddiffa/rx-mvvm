@@ -1,5 +1,6 @@
 package com.example.android.databinding.basicsample.ui.feature.detailmovie
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.remote.response.error.ApiDisposable
@@ -8,6 +9,7 @@ import com.example.android.databinding.basicsample.ui.viewstate.BaseViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.utils.loggingError
 import java.util.concurrent.TimeUnit
 
 class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
@@ -34,6 +36,11 @@ class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
                         }
                         )
                 ).also { compositeDisposable.add(it) }
+    }
+
+    @SuppressLint("CheckResult")
+    fun updateMovieDetail(isFavorite : Boolean,movie: MovieDetailEntity) {
+        repository.updateMovieDetail(isFavorite,movie)
     }
 
 }
