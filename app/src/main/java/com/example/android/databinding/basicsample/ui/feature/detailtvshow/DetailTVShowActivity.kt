@@ -1,19 +1,17 @@
 package com.example.android.databinding.basicsample.ui.feature.detailtvshow
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
-import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.ActivityDetailTvshowBinding
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible
-import kotlinx.android.synthetic.main.activity_detail_movie.*
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_detail_movie.imgBack
 import kotlinx.android.synthetic.main.activity_detail_tvshow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,9 +50,8 @@ class DetailTVShowActivity : AppCompatActivity() {
         })
     }
 
-    private fun observeError(err: ApiError) {
-        loggingError(DetailTVShowActivity::class.java.simpleName, err.logMessage)
-        Toast.makeText(applicationContext, err.message, Toast.LENGTH_SHORT).show()
+    private fun observeError(err: Throwable) {
+        err.message?.let { loggingError(DetailTVShowActivity::class.java.simpleName, it) }
     }
 
     private fun observeTvShowDetail(tvShow: TvShowDetailEntity?) {
@@ -77,10 +74,27 @@ class DetailTVShowActivity : AppCompatActivity() {
 
     fun onFavoriteClick(isFavorite: Boolean, tvShow: TvShowDetailEntity) {
         viewModel.updateTvShowDetail(isFavorite, tvShow)
-        if (isFavorite) {
-            Toast.makeText(applicationContext, "Tv Show has been deteled from favorite", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(applicationContext, "Tv Show has been added to favorite", Toast.LENGTH_SHORT).show()
-        }
+        observeDataFavoriteChange(isFavorite)
+    }
+
+    private fun observeDataFavoriteChange(isFavorite: Boolean) {
+        viewModel.favoriteState.observe(this, Observer {
+            when (it.currentState) {
+                ViewState.State.SUCCESS -> {
+                    when (isFavorite) {
+                        true -> {
+                            Snackbar.make(lnTvShow, "Tv Show has been deleted from favorite", Snackbar.LENGTH_SHORT).show()
+                        }
+                        false -> {
+                            Snackbar.make(lnTvShow, "Tv Show has been added from favorite", Snackbar.LENGTH_SHORT).show()
+                        }
+
+                    }
+                }
+                ViewState.State.FAILED -> {
+                    it.err?.message?.let { err -> loggingError(DetailTVShowActivity::class.java.simpleName, err) }
+                }
+            }
+        })
     }
 }

@@ -36,7 +36,7 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ViewHolder>() {
         list[position]?.let { holder.bind(it) }
     }
 
-    class ViewHolder(var binding: ItemTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(var binding: ItemTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tvShow: TvShowEntity) {
             binding.tvShows = tvShow

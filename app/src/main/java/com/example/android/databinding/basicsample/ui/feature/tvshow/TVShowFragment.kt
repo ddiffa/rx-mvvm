@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.FragmentTvshowBinding
 import com.example.android.databinding.basicsample.ui.adapter.TvShowAdapter
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
@@ -64,9 +63,8 @@ class TVShowFragment : Fragment() {
         })
     }
 
-    private fun observeError(err: ApiError) {
-        loggingError(TAG, err.logMessage)
-        Toast.makeText(context, err.code.toString() + " "+ err.message, Toast.LENGTH_SHORT).show()
+    private fun observeError(err: Throwable) {
+        err.message?.let { loggingError(TAG, it) }
     }
 
     private fun observeTvShows(tvShows: List<TvShowEntity>) {

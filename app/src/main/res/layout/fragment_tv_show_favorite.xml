@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.feature.favorite.movie.MovieFavoriteFragment">
+
+    <data>
+
+        <variable
+            name="adapter"
+            type="com.example.android.databinding.basicsample.ui.adapter.TvShowFavoriteAdapter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <io.supercharge.shimmerlayout.ShimmerLayout
+            android:id="@+id/shimmerTvShowFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_animation_duration="800">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/item_shimmer" />
+
+                    <include layout="@layout/item_shimmer" />
+
+                    <include layout="@layout/item_shimmer" />
+
+                    <include layout="@layout/item_shimmer" />
+
+                    <include layout="@layout/item_shimmer" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </io.supercharge.shimmerlayout.ShimmerLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTvShowFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/shimmerTvShowFavorite"
+            android:adapter="@{adapter}"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:id="@+id/lnTvShowZero"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:src="@drawable/zero" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/mm"
+                android:text="No Results Found"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

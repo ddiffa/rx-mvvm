@@ -1,10 +1,12 @@
 package com.example.android.databinding.basicsample.data.local.dao
 
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -15,16 +17,16 @@ interface TMDBDao {
     fun getNowPlayingMovie(): Observable<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(vararg movie: MovieEntity)
+    fun insertMovie( movie: List<MovieEntity>): Completable
 
     @Query("SELECT * FROM tvshowdb")
     fun getAllTvShowData(): Observable<List<TvShowEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTvShow(vararg tvShows: TvShowEntity)
+    fun insertTvShow( tvShows: List<TvShowEntity>): Completable
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertMovieDetail(vararg movieDetailEntity: MovieDetailEntity)
+    fun insertMovieDetail(movieDetailEntity: MovieDetailEntity) : Completable
 
     @Query("SELECT * FROM moviedetail_db where id = :id")
     fun getMovieDetail(id: String): Observable<MovieDetailEntity>
@@ -33,17 +35,17 @@ interface TMDBDao {
     fun getTvShowDetail(id: String): Observable<TvShowDetailEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertTvShowDetail(vararg tvShowDetailEntity: TvShowDetailEntity)
+    fun insertTvShowDetail(tvShowDetailEntity: TvShowDetailEntity) : Completable
 
     @Update
-    fun updateMovieDetail(movie: MovieDetailEntity)
+    fun updateMovieDetail(movie: MovieDetailEntity): Single<Int>
 
     @Update
-    fun updateTvShowDetail(tvShow: TvShowDetailEntity)
-//
-//    @Query("SELECT * FROM moviedetail_db where isFavorite = :isFavorite")
-//    fun getAllMovieFavorite(isFavorite: Boolean): DataSource.Factory<Int, Observable<List<MovieDetailEntity>>>
-//
-//    @Query("SELECT * FROM tvshowdetail_db where isFavorite = :isFavorite")
-//    fun getAllTvShowFavorite(isFavorite: Boolean): DataSource.Factory<Int, Observable<List<TvShowDetailEntity>>>
+    fun updateTvShowDetail(tvShow: TvShowDetailEntity): Single<Int>
+
+    @Query("SELECT * FROM moviedetail_db where isFavorite = :isFavorite")
+    fun getAllMovieFavorite(isFavorite: Boolean): DataSource.Factory<Int, MovieDetailEntity>
+
+    @Query("SELECT * FROM tvshowdetail_db where isFavorite = :isFavorite")
+    fun getAllTvShowFavorite(isFavorite: Boolean): DataSource.Factory<Int, TvShowDetailEntity>
 }

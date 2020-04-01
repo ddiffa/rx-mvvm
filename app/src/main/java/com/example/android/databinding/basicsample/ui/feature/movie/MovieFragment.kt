@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
-import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.databinding.FragmentMovieBinding
 import com.example.android.databinding.basicsample.ui.adapter.MovieAdapter
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
@@ -65,9 +63,8 @@ class MovieFragment : Fragment() {
         })
     }
 
-    private fun observeError(err: ApiError) {
-        loggingError(TAG, err.logMessage)
-        Toast.makeText(context, err.code.toString() + " "+ err.message, Toast.LENGTH_SHORT).show()
+    private fun observeError(err: Throwable) {
+        err.message?.let { loggingError(TAG, it) }
     }
 
     private fun observeMovies(movies: List<MovieEntity>?) {

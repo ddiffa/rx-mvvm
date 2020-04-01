@@ -1,5 +1,6 @@
 package com.example.android.databinding.basicsample.data.local.source
 
+import androidx.paging.DataSource
 import com.example.android.databinding.basicsample.data.local.dao.TMDBDao
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
@@ -8,32 +9,34 @@ import com.example.android.databinding.basicsample.data.local.entity.TvShowEntit
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import com.example.android.databinding.basicsample.utils.loggingError
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 class LocalDataSourceImpl(private val dao: TMDBDao,
                           private val scheduler: SchedulerProviders) : LocalDataSource {
 
 
-    override fun saveMovieData(movies: List<MovieEntity>) {
-        for (movie in movies) {
-            dao.insertMovie(movie)
-        }
+    override fun saveMovieData(movies: List<MovieEntity>): Completable {
+        return dao.insertMovie(movies)
+                .subscribeOn(scheduler.computation())
     }
 
-    override fun saveTvShowData(tvShows: List<TvShowEntity>) {
-        for (tvShow in tvShows) {
-            dao.insertTvShow(tvShow)
-        }
+    override fun saveTvShowData(tvShows: List<TvShowEntity>): Completable {
+        return dao.insertTvShow(tvShows)
+                .subscribeOn(scheduler.computation())
     }
 
-    override fun saveMovieDetail(movieDetailEntity: MovieDetailEntity) {
+    override fun saveMovieDetail(movieDetailEntity: MovieDetailEntity): Completable {
         movieDetailEntity.isFavorite = false
-        dao.insertMovieDetail(movieDetailEntity)
+        return dao.insertMovieDetail(movieDetailEntity)
+                .subscribeOn(scheduler.computation())
     }
 
-    override fun saveTvShowDetail(tvShowDetailEntity: TvShowDetailEntity) {
+    override fun saveTvShowDetail(tvShowDetailEntity: TvShowDetailEntity): Completable {
         tvShowDetailEntity.isFavorite = false
-        dao.insertTvShowDetail(tvShowDetailEntity)
+        return dao.insertTvShowDetail(tvShowDetailEntity)
+                .subscribeOn(scheduler.computation())
     }
 
     override fun getAllMovieData(): Observable<List<MovieEntity>> =
@@ -77,14 +80,19 @@ class LocalDataSourceImpl(private val dao: TMDBDao,
                         it.name?.let { title -> loggingError(LocalDataSourceImpl::class.java.simpleName, title) }
                     }
 
-    override fun updateMovieDetail(isFavorite: Boolean, movie: MovieDetailEntity) {
+    override fun updateMovieDetail(isFavorite: Boolean, movie: MovieDetailEntity): Single<Int> {
         movie.isFavorite = isFavorite
-        dao.updateMovieDetail(movie)
+        return dao.updateMovieDetail(movie)
     }
 
-    override fun updateTvShowDetail(isFavorite: Boolean,tvShow: TvShowDetailEntity) {
+    override fun updateTvShowDetail(isFavorite: Boolean, tvShow: TvShowDetailEntity): Single<Int> {
         tvShow.isFavorite = isFavorite
-        dao.updateTvShowDetail(tvShow)
-        loggingError(LocalDataSource::class.java.simpleName, "${tvShow.name} ${tvShow.isFavorite}")
+        return dao.updateTvShowDetail(tvShow)
     }
+
+    override fun getAllFavoriteMovie(isFavorite: Boolean): DataSource.Factory<Int, MovieDetailEntity> =
+            dao.getAllMovieFavorite(isFavorite)
+
+    override fun getAllFavoriteTvShow(isFavorite: Boolean): DataSource.Factory<Int, TvShowDetailEntity> =
+            dao.getAllTvShowFavorite(isFavorite)
 }

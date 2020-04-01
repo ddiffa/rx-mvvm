@@ -4,9 +4,14 @@
         android:id="@+id/action_movie"
         android:checked="true"
         android:title="Moive"
-        android:icon="@drawable/filmroll"/>
+        android:icon="@drawable/film"/>
     <item
         android:id="@+id/action_tv_show"
         android:title="Tv Show"
-        android:icon="@drawable/talkshow"/>
+        android:icon="@drawable/television"/>
+    <item
+        android:id="@+id/action_fav"
+        android:title="Favorite"
+        android:icon="@drawable/ic_star_black_24dp"
+        />
 </menu>

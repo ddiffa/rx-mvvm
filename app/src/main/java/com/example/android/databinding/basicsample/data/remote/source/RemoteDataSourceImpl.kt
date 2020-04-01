@@ -8,7 +8,6 @@ import com.example.android.databinding.basicsample.data.local.source.LocalDataSo
 import com.example.android.databinding.basicsample.data.remote.TMDBapi
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
 
 class RemoteDataSourceImpl(private val api: TMDBapi,
                            private val localImpl: LocalDataSourceImpl,
@@ -17,10 +16,7 @@ class RemoteDataSourceImpl(private val api: TMDBapi,
     override fun getMovieDataFromApi(apiKey: String): Observable<List<MovieEntity>> =
             api.getMovies(apiKey)
                     .map { movieResponse ->
-
-                        Observable.create { _: ObservableEmitter<Any?> ->
-                            localImpl.saveMovieData(movieResponse.results)
-                        }.subscribeOn(scheduler.computation()).subscribe()
+                        localImpl.saveMovieData(movieResponse.results).subscribe()
                         movieResponse.results
                     }
                     .subscribeOn(scheduler.io())
@@ -28,9 +24,7 @@ class RemoteDataSourceImpl(private val api: TMDBapi,
     override fun getMovieDataDetailFromApi(apiKey: String, id: String): Observable<MovieDetailEntity> =
             api.getMovieDetail(id, apiKey)
                     .map { movieDetailResponse ->
-                        Observable.create { _: ObservableEmitter<Any?> ->
-                            localImpl.saveMovieDetail(movieDetailResponse)
-                        }.subscribeOn(scheduler.computation()).subscribe()
+                        localImpl.saveMovieDetail(movieDetailResponse).subscribe()
                         movieDetailResponse
                     }
                     .subscribeOn(scheduler.io())
@@ -38,9 +32,7 @@ class RemoteDataSourceImpl(private val api: TMDBapi,
     override fun getTvShowDataFromAPI(apiKey: String): Observable<List<TvShowEntity>> =
             api.getTvShows(apiKey)
                     .map { tvShowResponse ->
-                        Observable.create { _: ObservableEmitter<Any?> ->
-                            localImpl.saveTvShowData(tvShowResponse.results)
-                        }.subscribeOn(scheduler.computation()).subscribe()
+                        localImpl.saveTvShowData(tvShowResponse.results).subscribe()
                         tvShowResponse.results
                     }
                     .subscribeOn(scheduler.io())
@@ -48,9 +40,7 @@ class RemoteDataSourceImpl(private val api: TMDBapi,
     override fun getTvShowDataDetailFromApi(apiKey: String, id: String): Observable<TvShowDetailEntity> =
             api.getTvShowDetail(id, apiKey)
                     .map { tvShowDetailEntity ->
-                        Observable.create { _: ObservableEmitter<Any?> ->
-                            localImpl.saveTvShowDetail(tvShowDetailEntity)
-                        }.subscribeOn(scheduler.computation()).subscribe()
+                        localImpl.saveTvShowDetail(tvShowDetailEntity).subscribe()
                         tvShowDetailEntity
                     }.subscribeOn(scheduler.io())
 }

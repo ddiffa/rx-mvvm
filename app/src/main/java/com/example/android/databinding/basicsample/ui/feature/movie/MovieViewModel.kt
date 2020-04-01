@@ -3,8 +3,6 @@ package com.example.android.databinding.basicsample.ui.feature.movie
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
-import com.example.android.databinding.basicsample.data.remote.response.error.ApiDisposable
-import com.example.android.databinding.basicsample.data.remote.response.error.ApiError
 import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.ui.viewstate.BaseViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
@@ -26,19 +24,17 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .delay(2, TimeUnit.SECONDS)
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .doOnNext {
                     onLoading()
                 }
                 .doOnComplete {
                     EspressoIdlingResource.decrement()
                 }
-                .subscribeWith(
-                        ApiDisposable<List<MovieEntity>>({
-                            onSuccess(it)
-                        }, {
-                            onError(it)
-                        })
+                .subscribe({
+                    onSuccess(it)
+                }, {
+                    onError(it)
+                }
                 ).also { compositeDisposable.add(it) }
     }
 
@@ -46,7 +42,7 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
         movieListState.postValue(ViewState.success(movies))
     }
 
-    private fun onError(err: ApiError) {
+    private fun onError(err: Throwable) {
         movieListState.postValue(ViewState.error(err))
     }
 

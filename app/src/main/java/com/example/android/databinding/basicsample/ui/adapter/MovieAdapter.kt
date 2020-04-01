@@ -38,7 +38,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         list[position]?.let { holder.bind(it) }
     }
 
-    class ViewHolder(var dataBinding: ItemMoviesBinding) : RecyclerView.ViewHolder(dataBinding.root) {
+    inner class ViewHolder(var dataBinding: ItemMoviesBinding) : RecyclerView.ViewHolder(dataBinding.root) {
         fun bind(movies: MovieEntity) {
             dataBinding.movie = movies
             dataBinding.image = movies.posterPath
