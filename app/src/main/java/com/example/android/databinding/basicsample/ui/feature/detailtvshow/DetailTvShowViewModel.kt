@@ -38,9 +38,13 @@ class DetailTvShowViewModel(private val repository: TvShowRepositoryImpl,
 
     @SuppressLint("CheckResult")
     fun updateTvShowDetail(isFavorite: Boolean, tvShowDetail: TvShowDetailEntity) {
+        EspressoIdlingResource.increment()
         repository.updateTvShowDetail(isFavorite, tvShowDetail)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
+                .doOnSuccess {
+                    EspressoIdlingResource.decrement()
+                }
                 .subscribe({
                     onFavoriteSuccess(it)
                 }, {

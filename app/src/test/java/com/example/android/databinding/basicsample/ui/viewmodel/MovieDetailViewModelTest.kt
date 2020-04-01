@@ -78,13 +78,7 @@ class MovieDetailViewModelTest {
     fun testApiFetchDataSuccess() {
         `when`(api.getMovieDetail("256", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.movieDetail))
         viewModel.getMoviesDetail("ac313fc1138a0ed697567a0dedddc6cd", "256")
-        verify(observer, times(1)).onChanged(ArgumentMatchers.any())
+        verify(observer, times(1)).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
 
-    @Test
-    fun testLocalData(){
-        val movie = LocalData.movieDetail
-        assertNotNull(movie)
-        assertEquals("Antoine and Colette",movie.title)
-    }
 }

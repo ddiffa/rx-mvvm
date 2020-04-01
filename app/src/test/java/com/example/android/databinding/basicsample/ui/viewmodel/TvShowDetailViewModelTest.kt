@@ -84,13 +84,8 @@ class TvShowDetailViewModelTest {
     fun testApiFetchDataSuccess() {
         `when`(api.getTvShowDetail("4553", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShowDetail))
         viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "4553")
-        verify(observer, times(1)).onChanged(ArgumentMatchers.any())
+
+        verify(observer).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
 
-    @Test
-    fun testLocalData() {
-        val tvShow = LocalData.tvShowDetail
-        assertNotNull(tvShow)
-        Assert.assertEquals("Bill the Minder", tvShow.name)
-    }
 }

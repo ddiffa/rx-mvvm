@@ -81,17 +81,10 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun testLocalData() {
-        val movie = LocalData.movie
-        assertNotNull(movie)
-        assertEquals(20, movie.results.size)
-    }
-
-    @Test
     fun testApiFetchDataSuccess() {
         `when`(api.getMovies("ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.movie))
         viewModel.getMovies("ac313fc1138a0ed697567a0dedddc6cd")
-        verify(observer, times(1)).onChanged(ArgumentMatchers.any())
+        verify(observer, times(1)).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
 
 

@@ -2,18 +2,21 @@ package com.example.android.databinding.basicsample.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
+import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.remote.TMDBapi
+import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TvShowViewModel
 import com.example.android.databinding.basicsample.ui.viewstate.ViewState
 import com.example.android.databinding.basicsample.utils.LocalData
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
-import org.junit.*
+import org.junit.Assert
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
@@ -55,12 +58,12 @@ class TvShowViewModelTest {
         MockitoAnnotations.initMocks(this)
         repository = TvShowRepositoryImpl(remoteImpl, localImpl)
         viewModel = TvShowViewModel(repository, SchedulerProviders.TEST_SCHEDULER)
+        Mockito.`when`(api.getTvShows("ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShow))
         viewModel.tvShowListState.observeForever(observer)
     }
 
     @Test
     fun testNotNull() {
-        Mockito.`when`(api.getTvShows("ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShow))
         assertNotNull(viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd"))
         Assert.assertTrue(viewModel.tvShowListState.hasObservers())
     }
@@ -82,20 +85,10 @@ class TvShowViewModelTest {
 
     @Test
     fun testApiFetchDataSuccess() {
-        Mockito.`when`(api.getTvShows("ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShow))
         viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
-        verify(observer, times(1)).onChanged(ArgumentMatchers.any())
+        viewModel.tvShowListState.observeForever(observer)
+        verify(observer, times(1)).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
 
-    @Test
-    fun testLocalData() {
-        val tvShow = LocalData.tvShow
-        assertNotNull(tvShow)
-        Assert.assertEquals(20, tvShow.results.size)
-    }
 
-    @After
-    fun tearDown() {
-        Mockito.validateMockitoUsage()
-    }
 }

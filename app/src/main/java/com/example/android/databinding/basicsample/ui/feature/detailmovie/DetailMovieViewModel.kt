@@ -39,9 +39,13 @@ class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
 
     @SuppressLint("CheckResult")
     fun updateMovieDetail(isFavorite: Boolean, movie: MovieDetailEntity) {
+        EspressoIdlingResource.increment()
         repository.updateMovieDetail(isFavorite, movie)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
+                .doOnSuccess {
+                    EspressoIdlingResource.decrement()
+                }
                 .subscribe({
                     onFavoriteSuccess(it)
                 }, {
