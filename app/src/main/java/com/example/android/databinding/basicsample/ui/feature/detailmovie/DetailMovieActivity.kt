@@ -50,13 +50,13 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun observeError(error: Throwable) {
-        error?.message?.let { loggingError(DetailMovieActivity::class.java.simpleName, it) }
+        error.message?.let { loggingError(DetailMovieActivity::class.java.simpleName, it) }
     }
 
     private fun observeMoviesDetail(movies: MovieDetailEntity?) {
-        var genres: String = ""
+        var genres = ""
         for (genre in movies?.genres!!) {
-            genres += genre?.name.toString() + ", "
+            genres += genre.name.toString() + ", "
         }
         if (movies.isFavorite!!) {
             fbFavoriteMovie.setImageResource(R.drawable.heart)

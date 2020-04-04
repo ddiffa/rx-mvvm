@@ -13,15 +13,11 @@ fun convertRuntime(runtime: String): String {
     return "$hour Hours $minute minutes"
 }
 
-val getNewSDF: String = "EEEE, MMM d, yyyy"
-val getOldSdf: String = "yyyy-MM-dd"
+const val getNewSDF: String = "EEEE, MMM d, yyyy"
+const val getOldSdf: String = "yyyy-MM-dd"
 
 fun View.visible() {
     visibility = View.VISIBLE
-}
-
-fun View.invisible() {
-    visibility = View.INVISIBLE
 }
 
 fun View.hide() {
@@ -36,6 +32,5 @@ fun loggingError(tag : String, msg : String){
 fun getSimpleDate(date: String?): String? {
     val oldSdf = SimpleDateFormat(getOldSdf)
     val newSdf = SimpleDateFormat(getNewSDF, Locale.getDefault())
-    val newDate = newSdf.format(oldSdf.parse(date))
-    return newDate
+    return newSdf.format(oldSdf.parse(date))
 }

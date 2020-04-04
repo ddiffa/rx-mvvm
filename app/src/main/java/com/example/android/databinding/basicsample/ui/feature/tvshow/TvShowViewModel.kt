@@ -22,7 +22,6 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .delay(2, TimeUnit.SECONDS)
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .doOnNext {
                     onLoading()
                 }

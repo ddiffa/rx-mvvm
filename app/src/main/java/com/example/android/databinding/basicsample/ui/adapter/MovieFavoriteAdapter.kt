@@ -12,7 +12,7 @@ import com.example.android.databinding.basicsample.databinding.ItemFavoriteMovie
 import com.example.android.databinding.basicsample.ui.handler.EventHandler
 import com.example.android.databinding.basicsample.utils.getSimpleDate
 
-class MovieFavoriteAdapter() : PagedListAdapter<MovieDetailEntity, MovieFavoriteAdapter.ViewHolder>(DIFF_CALBACK) {
+class MovieFavoriteAdapter : PagedListAdapter<MovieDetailEntity, MovieFavoriteAdapter.ViewHolder>(DIFF_CALBACK) {
 
     companion object {
         private val DIFF_CALBACK = object :

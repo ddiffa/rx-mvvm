@@ -7,7 +7,6 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
 import com.example.android.databinding.basicsample.data.source.MovieRepository
-import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -17,10 +16,9 @@ class MovieRepositoryImpl(
         private val localImpl: LocalDataSourceImpl
 ) : MovieRepository {
 
-    override fun getMovieData(apiKey: String): Observable<List<MovieEntity>> {
-        return Observable.concatArrayEager(localImpl.getAllMovieData(), remoteImpl.getMovieDataFromApi(apiKey))
+    override fun getMovieData(apiKey: String): Observable<List<MovieEntity>> =
+            Observable.concatArrayEager(localImpl.getAllMovieData(), remoteImpl.getMovieDataFromApi(apiKey))
 
-    }
 
     override fun getMovieDataDetail(apiKey: String, id: String): Observable<MovieDetailEntity> =
             Observable.concatArrayEager(localImpl.getMovieDetail(id), remoteImpl.getMovieDataDetailFromApi(apiKey, id))

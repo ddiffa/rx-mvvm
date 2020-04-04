@@ -44,12 +44,6 @@ class LocalDataSourceImpl(private val dao: TMDBDao,
     override fun getAllMovieData(): Observable<List<MovieEntity>> =
             dao.getNowPlayingMovie()
                     .subscribeOn(scheduler.computation())
-                    .doOnError {
-                        loggingError(LocalDataSourceImpl::class.java.simpleName, it.localizedMessage)
-                    }
-                    .doOnNext {
-                        loggingError(LocalDataSourceImpl::class.java.simpleName, it.size.toString())
-                    }
                     .filter {
                         it.isNotEmpty()
                     }
@@ -57,9 +51,6 @@ class LocalDataSourceImpl(private val dao: TMDBDao,
     override fun getTvShowData(): Observable<List<TvShowEntity>> =
             dao.getAllTvShowData()
                     .subscribeOn(scheduler.computation())
-                    .doOnNext {
-                        loggingError(TvShowRepositoryImpl::class.java.simpleName, it.size.toString())
-                    }
                     .filter {
                         it.isNotEmpty()
                     }
@@ -69,18 +60,13 @@ class LocalDataSourceImpl(private val dao: TMDBDao,
             dao.getMovieDetail(id)
                     .subscribeOn(scheduler.computation())
                     .filter { true }
-                    .doOnNext {
-                        it.isFavorite?.let { title -> loggingError(LocalDataSourceImpl::class.java.simpleName, title.toString()) }
-                    }
 
 
     override fun getTvShowDetail(id: String): Observable<TvShowDetailEntity> =
             dao.getTvShowDetail(id)
                     .subscribeOn(scheduler.computation())
                     .filter { true }
-                    .doOnNext {
-                        it.name?.let { title -> loggingError(LocalDataSourceImpl::class.java.simpleName, title) }
-                    }
+
 
     override fun updateMovieDetail(isFavorite: Boolean, movie: MovieDetailEntity): Single<Int> {
         movie.isFavorite = isFavorite

@@ -23,7 +23,7 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
         repositoryImpl.getMovieData(apiKey)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .delay(3, TimeUnit.SECONDS)
+                .delay(2, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
 

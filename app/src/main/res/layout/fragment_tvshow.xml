@@ -21,7 +21,8 @@
             android:id="@+id/shimmerTvShow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:shimmer_animation_duration="800">
+            app:shimmer_animation_duration="800"
+            app:shimmer_auto_start="true">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

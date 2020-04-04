@@ -56,7 +56,7 @@ class DetailTVShowActivity : AppCompatActivity() {
     }
 
     private fun observeTvShowDetail(tvShow: TvShowDetailEntity?) {
-        var genres: String = ""
+        var genres = ""
         for (genre in tvShow?.genres!!) {
             genres += genre?.name.toString() + ", "
         }
