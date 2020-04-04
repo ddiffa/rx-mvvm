@@ -13,8 +13,7 @@ import com.example.android.databinding.basicsample.utils.LocalData
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
 import org.junit.Assert
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -59,33 +58,20 @@ class TvShowDetailViewModelTest {
     }
 
     @Test
-    fun testNotNull() {
+    fun testDataNotNull() {
         `when`(api.getTvShowDetail("256", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShowDetail))
         assertNotNull(viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "256"))
         assertTrue(viewModel.tvDetailState.hasObservers())
+        assertNotNull(LocalData.tvShowDetail)
     }
 
     @Test
-    @Throws(java.lang.Exception::class)
-    fun testTvAPIAvailability() {
-        val connection = URL("http://api.themoviedb.org/3/tv/4553?api_key=ac313fc1138a0ed697567a0dedddc6cd").openConnection()
-        val response = connection.getInputStream()
-        val buffer = StringBuffer()
-        BufferedReader(InputStreamReader(response, Charset.defaultCharset())).use { reader ->
-            var line: String?
-            while (reader.readLine().also { line = it } != null) {
-                buffer.append(line)
-            }
-        }
-        assert(buffer.isNotEmpty())
-    }
-
-    @Test
-    fun testApiFetchDataSuccess() {
+    fun testFetchDataSuccess() {
         `when`(api.getTvShowDetail("4553", "ac313fc1138a0ed697567a0dedddc6cd")).thenReturn(Observable.just(LocalData.tvShowDetail))
         viewModel.getTvShowDetail("ac313fc1138a0ed697567a0dedddc6cd", "4553")
-
-        verify(observer).onChanged(ViewState.success(ArgumentMatchers.any()))
+        viewModel.tvDetailState.observeForever(observer)
+        verify(observer, times(1)).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
+
 
 }

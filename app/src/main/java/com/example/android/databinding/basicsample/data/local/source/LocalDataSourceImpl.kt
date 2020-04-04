@@ -7,6 +7,7 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
 import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import com.example.android.databinding.basicsample.utils.loggingError
 import io.reactivex.Completable
@@ -37,6 +38,7 @@ class LocalDataSourceImpl(private val dao: TMDBDao,
         tvShowDetailEntity.isFavorite = false
         return dao.insertTvShowDetail(tvShowDetailEntity)
                 .subscribeOn(scheduler.computation())
+
     }
 
     override fun getAllMovieData(): Observable<List<MovieEntity>> =

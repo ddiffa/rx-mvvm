@@ -48,6 +48,7 @@ class TVShowFragment : Fragment() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerTvShow.visible()
+                    shimmerTvShow.startShimmerAnimation()
                     rvTvShow.hide()
                 }
                 ViewState.State.SUCCESS -> {

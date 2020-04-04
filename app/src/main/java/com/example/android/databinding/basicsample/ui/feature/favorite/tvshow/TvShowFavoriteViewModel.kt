@@ -22,13 +22,9 @@ class TvShowFavoriteViewModel(private val repositoryImpl: TvShowRepositoryImpl,
         repositoryImpl.getAllFavoriteTvShow(isFavorite)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .delay(2, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
                 }
                 .subscribe({
                     onSucces(it)
@@ -39,10 +35,12 @@ class TvShowFavoriteViewModel(private val repositoryImpl: TvShowRepositoryImpl,
 
     private fun onSucces(tvShow: PagedList<TvShowDetailEntity>) {
         tvShowDetailState.postValue(ViewState.success(tvShow))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(throwable: Throwable) {
         tvShowDetailState.postValue(ViewState.error(throwable))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onLoading() {

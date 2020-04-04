@@ -46,6 +46,7 @@ class TvShowFavoriteFragment : Fragment() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerTvShowFavorite.visible()
+                    shimmerTvShowFavorite.startShimmerAnimation()
                     rvTvShowFavorite.hide()
                 }
                 ViewState.State.FAILED -> {

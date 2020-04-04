@@ -33,6 +33,7 @@ class DetailMovieActivity : AppCompatActivity() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerMovieDetail.visible()
+                    shimmerMovieDetail.startShimmerAnimation()
                     layoutDataDetailMovie.hide()
                 }
                 ViewState.State.SUCCESS -> {

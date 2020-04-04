@@ -22,11 +22,9 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .delay(2, TimeUnit.SECONDS)
+                .debounce(400, TimeUnit.MILLISECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
                 }
                 .subscribe(
                         {
@@ -43,10 +41,12 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
 
     private fun onSuccess(tvShows: List<TvShowEntity>) {
         tvShowListState.postValue(ViewState.success(tvShows))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(err: Throwable) {
         tvShowListState.postValue(ViewState.error(err))
+        EspressoIdlingResource.decrement()
     }
 
 }

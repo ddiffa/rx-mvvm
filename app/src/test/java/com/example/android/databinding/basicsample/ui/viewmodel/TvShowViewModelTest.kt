@@ -13,6 +13,7 @@ import com.example.android.databinding.basicsample.utils.LocalData
 import com.example.android.databinding.basicsample.utils.SchedulerProviders
 import io.reactivex.Observable
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -63,32 +64,18 @@ class TvShowViewModelTest {
     }
 
     @Test
-    fun testNotNull() {
+    fun testDataNotNull() {
         assertNotNull(viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd"))
         Assert.assertTrue(viewModel.tvShowListState.hasObservers())
+        assertNotNull(LocalData.tvShow.results)
+        assertEquals(20,LocalData.tvShow.results.size)
     }
 
     @Test
-    @Throws(java.lang.Exception::class)
-    fun testTVShowAvailability() {
-        val connection = URL("http://api.themoviedb.org/3/tv/popular?api_key=ac313fc1138a0ed697567a0dedddc6cd").openConnection()
-        val response = connection.getInputStream()
-        val buffer = StringBuffer()
-        BufferedReader(InputStreamReader(response, Charset.defaultCharset())).use { reader ->
-            var line: String?
-            while (reader.readLine().also { line = it } != null) {
-                buffer.append(line)
-            }
-        }
-        assert(buffer.isNotEmpty())
-    }
-
-    @Test
-    fun testApiFetchDataSuccess() {
+    fun testFetchDataSuccess() {
         viewModel.getTvShow("ac313fc1138a0ed697567a0dedddc6cd")
         viewModel.tvShowListState.observeForever(observer)
         verify(observer, times(1)).onChanged(ViewState.success(ArgumentMatchers.any()))
     }
-
 
 }

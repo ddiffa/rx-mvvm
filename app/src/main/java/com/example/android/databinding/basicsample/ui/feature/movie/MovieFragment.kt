@@ -48,6 +48,7 @@ class MovieFragment : Fragment() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerMovie.visible()
+                    shimmerMovie.startShimmerAnimation()
                     rvMovie.hide()
                 }
                 ViewState.State.SUCCESS -> {

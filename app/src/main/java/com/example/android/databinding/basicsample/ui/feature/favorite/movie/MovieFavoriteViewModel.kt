@@ -22,13 +22,9 @@ class MovieFavoriteViewModel(private val repositoryImpl: MovieRepositoryImpl,
         repositoryImpl.getAllFavoriteMovie(isFavorite)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .delay(2, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
                 }
                 .subscribe({
                     onSuccess(it)
@@ -43,10 +39,12 @@ class MovieFavoriteViewModel(private val repositoryImpl: MovieRepositoryImpl,
 
     private fun onSuccess(movie: PagedList<MovieDetailEntity>) {
         movieDetailState.postValue(ViewState.success(movie))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(throwable: Throwable) {
         movieDetailState.postValue(ViewState.error(throwable))
+        EspressoIdlingResource.decrement()
     }
 
 

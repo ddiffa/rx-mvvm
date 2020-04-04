@@ -23,12 +23,10 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
         repositoryImpl.getMovieData(apiKey)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .delay(2, TimeUnit.SECONDS)
+                .delay(3, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
+
                 }
                 .subscribe({
                     onSuccess(it)
@@ -40,10 +38,12 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
 
     private fun onSuccess(movies: List<MovieEntity>) {
         movieListState.postValue(ViewState.success(movies))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(err: Throwable) {
         movieListState.postValue(ViewState.error(err))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onLoading() {
