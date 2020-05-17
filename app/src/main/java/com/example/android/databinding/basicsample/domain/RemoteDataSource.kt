@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.data.remote.source
+package com.example.android.databinding.basicsample.domain
 
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity

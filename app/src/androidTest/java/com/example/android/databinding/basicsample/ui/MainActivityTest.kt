@@ -10,16 +10,17 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
+import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+
 class MainActivityTest {
 
     @get:Rule
-    var activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
+    var activityRule = ActivityTestRule(MainActivity::class.java)
 
     @Before
     fun setUp() {

@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.data.source.impl
+package com.example.android.databinding.basicsample.data.repository
 
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
@@ -6,7 +6,7 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieDetail
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
-import com.example.android.databinding.basicsample.data.source.MovieRepository
+import com.example.android.databinding.basicsample.domain.MovieRepository
 import io.reactivex.Observable
 import io.reactivex.Single
 

@@ -4,15 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
+import com.example.android.databinding.basicsample.data.remote.ApiService
 import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
-import com.example.android.databinding.basicsample.data.remote.TMDBapi
-import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTvShowViewModel
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.common.ViewState
 import com.example.android.databinding.basicsample.utils.LocalData
-import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.domain.SchedulerProviders
 import io.reactivex.Observable
-import org.junit.Assert
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -39,7 +38,7 @@ class TvShowDetailViewModelTest {
 
     private var localImpl: LocalDataSourceImpl = mock(LocalDataSourceImpl::class.java)
 
-    private var api: TMDBapi = mock(TMDBapi::class.java)
+    private var api: ApiService = mock(ApiService::class.java)
 
     @Mock
     private lateinit var observer: Observer<ViewState<TvShowDetailEntity>>

@@ -13,7 +13,7 @@ class GenresConverter {
         @TypeConverter
         fun ListToJson(replyMessages: List<GenresItem?>?): String? {
             if (replyMessages == null) return null
-            val type = object : TypeToken<List<GenresItem?>?>() {}.getType()
+            val type = object : TypeToken<List<GenresItem?>?>() {}.type
             val json: String = Gson().toJson(replyMessages, type)
             return if (replyMessages.isEmpty()) null else json
         }
@@ -22,7 +22,7 @@ class GenresConverter {
         @TypeConverter
         fun JsonToList(json: String?): List<GenresItem?>? {
             val gson = Gson()
-            val type = object : TypeToken<List<GenresItem?>?>() {}.getType()
+            val type = object : TypeToken<List<GenresItem?>?>() {}.type
             return gson.fromJson(json, type)
         }
     }

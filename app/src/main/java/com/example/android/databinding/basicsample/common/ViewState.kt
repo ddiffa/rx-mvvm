@@ -1,7 +1,7 @@
-package com.example.android.databinding.basicsample.ui.viewstate
+package com.example.android.databinding.basicsample.common
 
 
-open class ViewState<T>(val data: T?, val err: Throwable?, val currentState: State) {
+data class ViewState<T>(val data: T?, val err: Throwable?, val currentState: State) {
     companion object {
         fun <T> success(data: T?): ViewState<T> = ViewState(data, null, State.SUCCESS)
 

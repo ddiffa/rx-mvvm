@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.ui.viewstate
+package com.example.android.databinding.basicsample.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel

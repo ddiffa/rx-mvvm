@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,7 +12,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
 import com.example.android.databinding.basicsample.databinding.FragmentTvshowBinding
 import com.example.android.databinding.basicsample.ui.adapter.TvShowAdapter
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.common.ViewState
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible

@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.data.source
+package com.example.android.databinding.basicsample.domain
 
 import androidx.paging.PagedList
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity

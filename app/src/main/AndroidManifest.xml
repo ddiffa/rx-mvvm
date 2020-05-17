@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTVShowActivity"></activity>
+        <activity android:name="com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTVShowActivity" />
         <activity android:name="com.example.android.databinding.basicsample.ui.feature.detailmovie.DetailMovieActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>

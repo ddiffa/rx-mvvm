@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
 import com.example.android.databinding.basicsample.databinding.ActivityDetailMovieBinding
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.common.ViewState
 import com.example.android.databinding.basicsample.utils.convertRuntime
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
@@ -49,13 +49,13 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun observeError(error: Throwable) {
-        error?.message?.let { loggingError(DetailMovieActivity::class.java.simpleName, it) }
+        error.message?.let { loggingError(DetailMovieActivity::class.java.simpleName, it) }
     }
 
     private fun observeMoviesDetail(movies: MovieDetailEntity?) {
         var genres: String = ""
         for (genre in movies?.genres!!) {
-            genres += genre?.name.toString() + ", "
+            genres += genre.name.toString() + ", "
         }
         if (movies.isFavorite!!) {
             fbFavoriteMovie.setImageResource(R.drawable.heart)

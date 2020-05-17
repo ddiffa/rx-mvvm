@@ -5,11 +5,12 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
 import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
-import com.example.android.databinding.basicsample.data.remote.TMDBapi
-import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.data.remote.ApiService
+import com.example.android.databinding.basicsample.domain.RemoteDataSource
+import com.example.android.databinding.basicsample.domain.SchedulerProviders
 import io.reactivex.Observable
 
-class RemoteDataSourceImpl(private val api: TMDBapi,
+class RemoteDataSourceImpl(private val api: ApiService,
                            private val localImpl: LocalDataSourceImpl,
                            private val scheduler: SchedulerProviders) : RemoteDataSource {
 

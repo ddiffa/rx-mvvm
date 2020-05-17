@@ -12,7 +12,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.databinding.FragmentMovieBinding
 import com.example.android.databinding.basicsample.ui.adapter.MovieAdapter
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.common.ViewState
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible

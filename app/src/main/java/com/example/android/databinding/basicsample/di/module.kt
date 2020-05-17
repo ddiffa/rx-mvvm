@@ -3,10 +3,10 @@ package com.example.android.databinding.basicsample.di
 import androidx.room.Room
 import com.example.android.databinding.basicsample.data.local.TMDBdb
 import com.example.android.databinding.basicsample.data.local.source.LocalDataSourceImpl
-import com.example.android.databinding.basicsample.data.remote.TMDBapi
+import com.example.android.databinding.basicsample.data.remote.ApiService
 import com.example.android.databinding.basicsample.data.remote.source.RemoteDataSourceImpl
-import com.example.android.databinding.basicsample.data.source.impl.MovieRepositoryImpl
-import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.data.repository.MovieRepositoryImpl
+import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.ui.feature.detailmovie.DetailMovieViewModel
 import com.example.android.databinding.basicsample.ui.feature.detailtvshow.DetailTvShowViewModel
 import com.example.android.databinding.basicsample.ui.feature.favorite.FavoriteFragment
@@ -18,11 +18,17 @@ import com.example.android.databinding.basicsample.ui.feature.movie.MovieFragmen
 import com.example.android.databinding.basicsample.ui.feature.movie.MovieViewModel
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TVShowFragment
 import com.example.android.databinding.basicsample.ui.feature.tvshow.TvShowViewModel
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
-import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.common.ViewState
+import com.example.android.databinding.basicsample.domain.SchedulerProviders
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 val appModule = module {
 
@@ -41,14 +47,37 @@ val appModule = module {
 
     single { SchedulerProviders.DEFAULT }
 
-    factory { MovieRepositoryImpl(get(), get()) }
-    factory { TvShowRepositoryImpl(get(), get()) }
+    single { MovieRepositoryImpl(get(), get()) }
+    single { TvShowRepositoryImpl(get(), get()) }
 
-    factory { LocalDataSourceImpl(get(), get()) }
-    factory { RemoteDataSourceImpl(get(), get(), get()) }
+    single { LocalDataSourceImpl(get(), get()) }
+    single { RemoteDataSourceImpl(get(), get(), get()) }
 
     single { ViewState }
-    single { TMDBapi.INSTANCE }
+    single {
+        return@single OkHttpClient.Builder()
+                .connectTimeout(60L, TimeUnit.SECONDS)
+                .readTimeout(60L, TimeUnit.SECONDS)
+                .writeTimeout(60L, TimeUnit.SECONDS)
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build()
+    }
+
+    single {
+        Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .client(get())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+    }
+
+    single {
+        createApiService<ApiService>(get())
+
+    }
 
     single {
         Room.databaseBuilder(get(), TMDBdb::class.java, "tmdb_db").allowMainThreadQueries().build()
@@ -57,4 +86,8 @@ val appModule = module {
     single {
         get<TMDBdb>().tmdbDao()
     }
+
+
 }
+
+inline fun <reified T> createApiService(retrofit: Retrofit): T = retrofit.create(T::class.java)

@@ -6,8 +6,9 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieDetail
 import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
-import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.domain.LocalDataSource
+import com.example.android.databinding.basicsample.domain.SchedulerProviders
 import com.example.android.databinding.basicsample.utils.loggingError
 import io.reactivex.Completable
 import io.reactivex.Observable

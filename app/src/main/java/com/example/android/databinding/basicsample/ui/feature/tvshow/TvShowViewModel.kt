@@ -3,11 +3,11 @@ package com.example.android.databinding.basicsample.ui.feature.tvshow
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.example.android.databinding.basicsample.data.local.entity.TvShowEntity
-import com.example.android.databinding.basicsample.data.source.impl.TvShowRepositoryImpl
-import com.example.android.databinding.basicsample.ui.viewstate.BaseViewModel
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
-import com.example.android.databinding.basicsample.utils.EspressoIdlingResource
-import com.example.android.databinding.basicsample.utils.SchedulerProviders
+import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
+import com.example.android.databinding.basicsample.base.BaseViewModel
+import com.example.android.databinding.basicsample.common.ViewState
+import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
+import com.example.android.databinding.basicsample.domain.SchedulerProviders
 import java.util.concurrent.TimeUnit
 
 class TvShowViewModel(private val repository: TvShowRepositoryImpl,

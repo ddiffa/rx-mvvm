@@ -12,7 +12,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.local.entity.TvShowDetailEntity
 import com.example.android.databinding.basicsample.databinding.FragmentTvShowFavoriteBinding
 import com.example.android.databinding.basicsample.ui.adapter.TvShowFavoriteAdapter
-import com.example.android.databinding.basicsample.ui.viewstate.ViewState
+import com.example.android.databinding.basicsample.common.ViewState
 import com.example.android.databinding.basicsample.utils.hide
 import com.example.android.databinding.basicsample.utils.loggingError
 import com.example.android.databinding.basicsample.utils.visible

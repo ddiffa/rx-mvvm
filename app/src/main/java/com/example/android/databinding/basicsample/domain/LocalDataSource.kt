@@ -1,4 +1,4 @@
-package com.example.android.databinding.basicsample.data.local.source
+package com.example.android.databinding.basicsample.domain
 
 import androidx.paging.DataSource
 import com.example.android.databinding.basicsample.data.local.entity.MovieDetailEntity
