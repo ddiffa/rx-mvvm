@@ -89,7 +89,7 @@
                         android:textSize="11sp" />
 
                     <TextView
-                        android:id="@+id/tvItemDetailsTv"
+                        android:id="@+id/tvItemDetailsTvFavorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="tvItemDetailTv"

@@ -46,6 +46,7 @@ class MovieFavoriteFragment : Fragment() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerMovieFavorite.visible()
+                    shimmerMovieFavorite.startShimmerAnimation()
                     rvMovieFavorite.hide()
                 }
                 ViewState.State.FAILED -> {

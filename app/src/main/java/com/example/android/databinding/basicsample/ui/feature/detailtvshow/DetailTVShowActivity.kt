@@ -36,6 +36,7 @@ class DetailTVShowActivity : AppCompatActivity() {
                 ViewState.State.LOADING -> {
                     layoutDataDetailTvShow.hide()
                     shimmerTvShowDetail.visible()
+                    shimmerTvShowDetail.startShimmerAnimation()
                 }
                 ViewState.State.SUCCESS -> {
                     shimmerTvShowDetail.stopShimmerAnimation()
@@ -55,7 +56,7 @@ class DetailTVShowActivity : AppCompatActivity() {
     }
 
     private fun observeTvShowDetail(tvShow: TvShowDetailEntity?) {
-        var genres: String = ""
+        var genres = ""
         for (genre in tvShow?.genres!!) {
             genres += genre?.name.toString() + ", "
         }

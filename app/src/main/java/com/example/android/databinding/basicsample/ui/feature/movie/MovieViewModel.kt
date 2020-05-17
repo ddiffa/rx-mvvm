@@ -6,8 +6,8 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieEntity
 import com.example.android.databinding.basicsample.data.repository.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.base.BaseViewModel
 import com.example.android.databinding.basicsample.common.ViewState
-import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
 import com.example.android.databinding.basicsample.domain.SchedulerProviders
+import com.example.android.databinding.basicsample.domain.idlingresource.EspressoIdlingResource
 import java.util.concurrent.TimeUnit
 
 
@@ -26,9 +26,7 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
                 .delay(2, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
+
                 }
                 .subscribe({
                     onSuccess(it)
@@ -40,10 +38,12 @@ class MovieViewModel(private val repositoryImpl: MovieRepositoryImpl,
 
     private fun onSuccess(movies: List<MovieEntity>) {
         movieListState.postValue(ViewState.success(movies))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(err: Throwable) {
         movieListState.postValue(ViewState.error(err))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onLoading() {

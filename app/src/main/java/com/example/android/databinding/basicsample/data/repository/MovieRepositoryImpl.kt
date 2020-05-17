@@ -16,9 +16,9 @@ class MovieRepositoryImpl(
         private val localImpl: LocalDataSourceImpl
 ) : MovieRepository {
 
-    override fun getMovieData(apiKey: String): Observable<List<MovieEntity>> {
-        return Observable.concatArrayEager(localImpl.getAllMovieData(), remoteImpl.getMovieDataFromApi(apiKey))
-    }
+    override fun getMovieData(apiKey: String): Observable<List<MovieEntity>> =
+            Observable.concatArrayEager(localImpl.getAllMovieData(), remoteImpl.getMovieDataFromApi(apiKey))
+
 
     override fun getMovieDataDetail(apiKey: String, id: String): Observable<MovieDetailEntity> =
             Observable.concatArrayEager(localImpl.getMovieDetail(id), remoteImpl.getMovieDataDetailFromApi(apiKey, id))

@@ -6,8 +6,8 @@ import com.example.android.databinding.basicsample.data.local.entity.MovieDetail
 import com.example.android.databinding.basicsample.data.repository.MovieRepositoryImpl
 import com.example.android.databinding.basicsample.base.BaseViewModel
 import com.example.android.databinding.basicsample.common.ViewState
-import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
 import com.example.android.databinding.basicsample.domain.SchedulerProviders
+import com.example.android.databinding.basicsample.domain.idlingresource.EspressoIdlingResource
 import java.util.concurrent.TimeUnit
 
 class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
@@ -25,9 +25,6 @@ class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
                 .doOnNext {
                     onLoading()
                 }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
-                }
                 .subscribe(
                         {
                             onSuccess(it)
@@ -43,9 +40,6 @@ class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
         repository.updateMovieDetail(isFavorite, movie)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
-                .doOnSuccess {
-                    EspressoIdlingResource.decrement()
-                }
                 .subscribe({
                     onFavoriteSuccess(it)
                 }, {
@@ -55,18 +49,22 @@ class DetailMovieViewModel(private val repository: MovieRepositoryImpl,
 
     private fun onFavoriteSuccess(int: Int) {
         favoriteState.postValue(ViewState.success(int))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onFavoriteError(throwable: Throwable) {
         favoriteState.postValue(ViewState.error(throwable))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onSuccess(movie: MovieDetailEntity) {
         movieDetailState.postValue(ViewState.success(movie))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(throwable: Throwable) {
         movieDetailState.postValue(ViewState.error(throwable))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onLoading() {

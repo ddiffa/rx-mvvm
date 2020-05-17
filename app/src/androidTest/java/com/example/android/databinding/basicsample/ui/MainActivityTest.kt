@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.example.android.databinding.basicsample.R
-import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
+import com.example.android.databinding.basicsample.domain.idlingresource.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -27,54 +27,47 @@ class MainActivityTest {
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
     }
 
-    @After
-    fun tearDown() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
-    }
-
     @Test
-    fun scrollRecyclerViewMovie() {
+    fun addFavoriteMovieIndex0() {
         onView(withId(R.id.action_movie)).perform(click())
         onView(withId(R.id.rvMovie)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun loadDetailMovies() {
         onView(withId(R.id.rvMovie)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetails, click()))
         onView(withId(R.id.tvTitleDetailMovie)).check(matches(isDisplayed()))
         onView(withId(R.id.fbFavoriteMovie)).perform(click())
     }
 
     @Test
-    fun scrollRecyclerViewTvShow() {
+    fun addFavoriteTvShowIndex0() {
         onView(withId(R.id.action_tv_show)).perform(click())
         onView(withId(R.id.rvTvShow)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun loadDetailTvShow() {
-        onView(withId(R.id.action_tv_show)).perform(click())
         onView(withId(R.id.rvTvShow)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetailsTv, click()))
         onView(withId(R.id.tvTitleDetailTvShow)).check(matches(isDisplayed()))
         onView(withId(R.id.fbFavoriteTvShow)).perform(click())
     }
 
     @Test
-    fun showFavoriteMovie(){
+    fun deleteFavoriteMovieIndex0(){
         onView(withId(R.id.action_fav)).perform(click())
         onView(withId(R.id.rvMovieFavorite)).check(matches(isDisplayed()))
-        onView(withId(R.id.rvMovieFavorite)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetails, click()))
+        onView(withId(R.id.rvMovieFavorite)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetailsFavorite, click()))
+        onView(withId(R.id.tvTitleDetailMovie)).check(matches(isDisplayed()))
+        onView(withId(R.id.fbFavoriteMovie)).perform(click())
     }
 
     @Test
-    fun showFavoriteTvShow(){
+    fun deleteFavoriteTvShowIndex0(){
         onView(withId(R.id.action_fav)).perform(click())
         onView(withId(R.id.viewpager)).perform(swipeLeft())
         onView(withId(R.id.rvTvShowFavorite)).check(matches(isDisplayed()))
-        onView(withId(R.id.rvTvShowFavorite)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetailsTv, click()))
+        onView(withId(R.id.rvTvShowFavorite)).perform(TestUtils.actionOnItemViewAtPosition<RecyclerView.ViewHolder>(0, R.id.tvItemDetailsTvFavorite, click()))
+        onView(withId(R.id.tvTitleDetailTvShow)).check(matches(isDisplayed()))
+        onView(withId(R.id.fbFavoriteTvShow)).perform(click())
     }
 
-
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
 }
 
 

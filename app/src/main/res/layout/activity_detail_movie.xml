@@ -48,7 +48,8 @@
             android:id="@+id/shimmerMovieDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_animation_duration="800">
+            app:shimmer_animation_duration="800"
+            app:shimmer_auto_start="true">
 
             <include layout="@layout/item_shimmer_detail" />
 

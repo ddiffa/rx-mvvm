@@ -6,8 +6,8 @@ import com.example.android.databinding.basicsample.data.local.entity.TvShowEntit
 import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.base.BaseViewModel
 import com.example.android.databinding.basicsample.common.ViewState
-import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
 import com.example.android.databinding.basicsample.domain.SchedulerProviders
+import com.example.android.databinding.basicsample.domain.idlingresource.EspressoIdlingResource
 import java.util.concurrent.TimeUnit
 
 class TvShowViewModel(private val repository: TvShowRepositoryImpl,
@@ -25,9 +25,6 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
                 .doOnNext {
                     onLoading()
                 }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
-                }
                 .subscribe(
                         {
                             onSuccess(it)
@@ -43,10 +40,12 @@ class TvShowViewModel(private val repository: TvShowRepositoryImpl,
 
     private fun onSuccess(tvShows: List<TvShowEntity>) {
         tvShowListState.postValue(ViewState.success(tvShows))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(err: Throwable) {
         tvShowListState.postValue(ViewState.error(err))
+        EspressoIdlingResource.decrement()
     }
 
 }

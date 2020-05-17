@@ -7,8 +7,8 @@ import com.example.android.databinding.basicsample.data.local.entity.TvShowDetai
 import com.example.android.databinding.basicsample.data.repository.TvShowRepositoryImpl
 import com.example.android.databinding.basicsample.base.BaseViewModel
 import com.example.android.databinding.basicsample.common.ViewState
-import com.example.android.databinding.basicsample.domain.EspressoIdlingResource
 import com.example.android.databinding.basicsample.domain.SchedulerProviders
+import com.example.android.databinding.basicsample.domain.idlingresource.EspressoIdlingResource
 import java.util.concurrent.TimeUnit
 
 class TvShowFavoriteViewModel(private val repositoryImpl: TvShowRepositoryImpl,
@@ -22,13 +22,9 @@ class TvShowFavoriteViewModel(private val repositoryImpl: TvShowRepositoryImpl,
         repositoryImpl.getAllFavoriteTvShow(isFavorite)
                 .observeOn(scheduler.ui())
                 .subscribeOn(scheduler.io())
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .delay(2, TimeUnit.SECONDS)
                 .doOnNext {
                     onLoading()
-                }
-                .doOnComplete {
-                    EspressoIdlingResource.decrement()
                 }
                 .subscribe({
                     onSucces(it)
@@ -39,10 +35,12 @@ class TvShowFavoriteViewModel(private val repositoryImpl: TvShowRepositoryImpl,
 
     private fun onSucces(tvShow: PagedList<TvShowDetailEntity>) {
         tvShowDetailState.postValue(ViewState.success(tvShow))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onError(throwable: Throwable) {
         tvShowDetailState.postValue(ViewState.error(throwable))
+        EspressoIdlingResource.decrement()
     }
 
     private fun onLoading() {

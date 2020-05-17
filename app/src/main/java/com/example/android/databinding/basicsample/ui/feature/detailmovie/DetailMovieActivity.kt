@@ -33,6 +33,7 @@ class DetailMovieActivity : AppCompatActivity() {
             when (it.currentState) {
                 ViewState.State.LOADING -> {
                     shimmerMovieDetail.visible()
+                    shimmerMovieDetail.startShimmerAnimation()
                     layoutDataDetailMovie.hide()
                 }
                 ViewState.State.SUCCESS -> {
@@ -53,7 +54,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun observeMoviesDetail(movies: MovieDetailEntity?) {
-        var genres: String = ""
+        var genres = ""
         for (genre in movies?.genres!!) {
             genres += genre.name.toString() + ", "
         }
